@@ -8,6 +8,7 @@ package chd.shoppingonline.config;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,7 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity //注解开启Spring Security的功能
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
-    // @Qualifier("userServiceImpl")
+    @Qualifier("userServiceImpl")
     private UserDetailsService userDetailsService;
 
     @Autowired
@@ -50,9 +51,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .loginPage("/account/login")
                 .loginProcessingUrl("/account/login")
                 .failureUrl("/account/login?error=true")
-                .usernameParameter("email")//用户名为邮箱
+                .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/user")//登陆成功后跳转到 /serendipper
+                .defaultSuccessUrl("/user")//登陆成功后跳转到 /user
                 .permitAll()
                 .and()
             .logout()

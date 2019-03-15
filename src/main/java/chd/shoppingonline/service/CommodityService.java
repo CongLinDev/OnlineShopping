@@ -15,7 +15,7 @@ public interface CommodityService {
     Commodity addCommodity(Commodity commodity);
 
     //删除商品
-    Commodity deleteCommodity(Long commodityId);
+    void deleteCommodity(Long commodityId);
 
     //查询商品
     Commodity findCommodity(Long commodityId);

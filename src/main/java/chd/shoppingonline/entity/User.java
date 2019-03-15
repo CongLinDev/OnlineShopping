@@ -32,14 +32,6 @@ public class User {
     @Column(name = "roles")
     private String roles;
 
-    //买家的购物车
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name="shoppingcart",
-            joinColumns={@JoinColumn(name="user_id",referencedColumnName="user_id")},
-            inverseJoinColumns={@JoinColumn(name="commodity_id",referencedColumnName="commodity_id")})
-    private List<Commodity> shoppingCart;
-
     //卖家卖的商品
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="created_by")
@@ -51,7 +43,6 @@ public class User {
         this.username = that.getUsername();
         this.password = that.getPassword();
         this.roles = that.getRoles();
-        this.shoppingCart = that.getShoppingCart();
         this.sells = that.getSells();
     }
 }

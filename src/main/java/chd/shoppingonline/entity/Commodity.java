@@ -11,6 +11,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -29,7 +30,7 @@ public class Commodity {
             nullable = false,
             updatable = false
     )
-    private Long createdBy;//商家
+    private Long createdBy;//商家id
 
     @CreatedDate
     @Column(
@@ -42,6 +43,14 @@ public class Commodity {
     @Size(max=20, min=4)
     @Column(name = "commodityname")
     private String commodityname;//产品名
+
+    @NotEmpty
+    @Column(name = "price")
+    private int price;//价格
+
+    @NotEmpty
+    @Column(name = "stock")
+    private int stock;//库存
 
     @Size(min = 0, max = 200)
     @Column(name = "description")

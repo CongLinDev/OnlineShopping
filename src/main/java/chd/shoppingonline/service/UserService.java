@@ -15,8 +15,8 @@ public interface UserService {
     User addUser(User user);
 
     //删除用户
-    User deleteUser(Long userId);
-    User deleteUser(String username);
+    void deleteUser(Long userId);
+    void deleteUser(String username);
 
     //查询用户
     User findUser();//查询当前登陆用户
