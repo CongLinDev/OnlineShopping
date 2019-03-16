@@ -1,20 +1,24 @@
 package chd.shoppingonline.entity;
 
-import lombok.Data;
-
-import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.util.List;
-
 /*
  * @ClassName User
  * @Author 从林
  * @Date 2019-03-14 15:26
  * @Description 用户类
  */
+
+import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.util.List;
+
 @Entity
 @Table(name = "user", schema = "user")
 @Data
+@DynamicUpdate
 public class User {
     @Id//主键
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自动生成ID
@@ -32,6 +36,10 @@ public class User {
     @Column(name = "roles")
     private String roles;
 
+    @Column(name="balance")
+    @NotEmpty
+    private Double balance;
+
     //卖家卖的商品
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="created_by")
@@ -44,5 +52,6 @@ public class User {
         this.password = that.getPassword();
         this.roles = that.getRoles();
         this.sells = that.getSells();
+        this.balance = that.getBalance();
     }
 }

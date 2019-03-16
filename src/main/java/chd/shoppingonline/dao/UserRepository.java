@@ -8,10 +8,21 @@ package chd.shoppingonline.dao;
 
 import chd.shoppingonline.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
     void deleteByUsername(String username);
+
+    Double findBalanceById(Long userId);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update User user set user.balance = :balance where user.id = :userId")
+    void updateBalanceByUserId(@Param("userId")Long userId, @Param("balance") double balance);
 }

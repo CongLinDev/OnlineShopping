@@ -1,5 +1,12 @@
 package chd.shoppingonline.entity;
 
+/*
+ * @ClassName Record
+ * @Author 从林
+ * @Date 2019-03-15 15:52
+ * @Description 交易记录
+ */
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,13 +14,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
-
-/*
- * @ClassName Record
- * @Author 从林
- * @Date 2019-03-15 15:52
- * @Description 交易记录
- */
 
 @Entity
 @Table(name = "record", schema = "record")
@@ -36,12 +36,12 @@ public class Record {
 
     @NotEmpty
     @Column(name = "buyer_id")
-    private Long buyerId;
+    private Long buyerId;//买家Id
 
     @NotEmpty
     @Column(name = "record_time")
     private Date recordTime;
 
     @Column(name = "remarks")
-    private String remarks;
+    private String remarks;//备注
 }

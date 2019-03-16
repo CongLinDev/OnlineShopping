@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<User> findAllUser(){
         return userRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public Boolean updateUserBalance(Long userId, Double transactionBalance, Boolean isSeller){
+        Double balance = userRepository.findBalanceById(userId);
+        if(!isSeller){//如果是买家
+            if(balance < transactionBalance){
+                log.info("更新用户余额失败：交易金钱数量大于买家余额");
+                return false;
+            }
+            userRepository.updateBalanceByUserId(userId, balance - transactionBalance);
+        }else{//如果是卖家
+            userRepository.updateBalanceByUserId(userId, balance + transactionBalance);
+        }
+        log.info("更新用户余额成功");
+        return true;
     }
 
     /* 以下实现UserDetailsService接口 */

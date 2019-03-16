@@ -7,6 +7,7 @@ package chd.shoppingonline.entity;
  */
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -18,6 +19,7 @@ import java.util.Date;
 @Entity
 @Table(name = "commodity", schema = "commodity")
 @Data
+@DynamicUpdate
 public class Commodity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,11 +48,11 @@ public class Commodity {
 
     @NotEmpty
     @Column(name = "price")
-    private int price;//价格
+    private Double price;//价格
 
     @NotEmpty
     @Column(name = "stock")
-    private int stock;//库存
+    private Integer stock;//库存
 
     @Size(min = 0, max = 200)
     @Column(name = "description")

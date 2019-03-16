@@ -25,4 +25,7 @@ public interface UserService {
 
     //获取所有用户
     List<User> findAllUser();
+
+    //更新用户账户余额
+    Boolean updateUserBalance(Long userId, Double transactionBalance, Boolean isSeller);
 }

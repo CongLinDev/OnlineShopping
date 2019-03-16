@@ -23,4 +23,7 @@ public interface CommodityService {
 
     //查询所有商品
     List<Commodity> findAllCommodity();
+
+    //交易商品
+    Boolean transactCommodity(Long commodityId);
 }
