@@ -7,8 +7,8 @@ package chd.shoppingonline.service;
  */
 
 import chd.shoppingonline.entity.Record;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface RecordService {
     //生成订单
@@ -17,6 +17,9 @@ public interface RecordService {
 
     //查询订单
     Record findRecord(Long recordId);//通过订单ID查询
-    List<Record> findRecordOfSeller(Long sellerId);//通过商家id查询商家所有订单
-    List<Record> findRecordOfBuyer(Long buyerId);//通过买家id查询买家所有订单
+    Page<Record> findRecordOfSeller(Long sellerId, Pageable pageable);//通过商家id查询商家所有订单
+    Page<Record> findRecordOfSeller(Long sellerIdint, int pageNum, int pageLimit);//按照ID逆序排列
+
+    Page<Record> findRecordOfBuyer(Long buyerId, Pageable pageable);//通过买家id查询买家所有订单
+    Page<Record> findRecordOfBuyer(Long buyerId,int pageNum, int pageLimit);//按照ID逆序排列
 }

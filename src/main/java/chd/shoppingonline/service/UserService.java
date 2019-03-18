@@ -7,8 +7,8 @@ package chd.shoppingonline.service;
  */
 
 import chd.shoppingonline.entity.User;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface UserService {
     //添加用户
@@ -24,8 +24,11 @@ public interface UserService {
     User findUser(String username);
 
     //获取所有用户
-    List<User> findAllUser();
+    //List<User> findAllUser();//弃用
+    Page<User> findAllUser(Pageable pageable);
+    Page<User> findAllUser(int pageNum, int pageLimit);//按照序号顺序排列，页号从1开始
 
+    /*******************以下方法不建议Controller层调用**************************************************************/
     //更新用户账户余额
     Boolean updateUserBalance(Long userId, Double transactionBalance, Boolean isSeller);
 }

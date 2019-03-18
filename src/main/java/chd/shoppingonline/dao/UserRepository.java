@@ -7,6 +7,8 @@ package chd.shoppingonline.dao;
  */
 
 import chd.shoppingonline.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    Page<User> findAllUser(Pageable pageable);
+
     User findByUsername(String username);
     void deleteByUsername(String username);
 

@@ -12,6 +12,10 @@ import chd.shoppingonline.entity.User;
 import chd.shoppingonline.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -77,8 +81,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     //获取所有用户
     @Override
-    public List<User> findAllUser(){
-        return userRepository.findAll();
+    public Page<User> findAllUser(Pageable pageable){
+        return userRepository.findAllUser(pageable);
+    }
+
+    @Override
+    public Page<User> findAllUser(int pageNum, int pageLimit){
+        Pageable pageable = PageRequest.of(pageNum, pageLimit, new Sort(Sort.Direction.ASC, "user_id"));
+        return findAllUser(pageable);
     }
 
     @Override
@@ -98,7 +108,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return true;
     }
 
-    /* 以下实现UserDetailsService接口 */
+    /**********************以下实现UserDetailsService接口****************/
     @Override
     public UserDetails loadUserByUsername(String username)throws UsernameNotFoundException {
         User user = findUser(username);

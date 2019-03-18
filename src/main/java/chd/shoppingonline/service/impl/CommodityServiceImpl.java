@@ -11,10 +11,12 @@ import chd.shoppingonline.entity.Commodity;
 import chd.shoppingonline.service.CommodityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -40,15 +42,28 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public List<Commodity> findCommodity(String commodityname){
+    public Page<Commodity> findCommodity(String commodityname, Pageable pageable){
         log.info("查询商品：NAME=" + commodityname);
-        return commodityRepository.findAllByCommodityname(commodityname);
+        return commodityRepository.findAllByCommodityname(commodityname, pageable);
     }
 
     @Override
-    public List<Commodity> findAllCommodity(){
+    public Page<Commodity> findCommodity(String commodityname, int pageNum, int pageLimit){
+        Pageable pageable = PageRequest.of(pageNum, pageLimit, new Sort(Sort.Direction.DESC, "commodity_id"));
+        return findCommodity(commodityname, pageable);
+    }
+
+    //获取所有用户
+    @Override
+    public Page<Commodity> findAllCommodity(Pageable pageable){
         log.info("查询所有商品");
-        return commodityRepository.findAll();
+        return commodityRepository.findAllCommodity(pageable);
+    }
+
+    @Override
+    public Page<Commodity> findAllCommodity(int pageNum, int pageLimit){
+        Pageable pageable = PageRequest.of(pageNum, pageLimit, new Sort(Sort.Direction.DESC, "commodity_id"));
+        return findAllCommodity(pageable);
     }
 
     @Override

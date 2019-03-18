@@ -14,11 +14,14 @@ import chd.shoppingonline.service.RecordService;
 import chd.shoppingonline.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -69,14 +72,26 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public List<Record> findRecordOfSeller(Long sellerId){
+    public Page<Record> findRecordOfSeller(Long sellerId, Pageable pageable){
         log.info("查询商家所有订单：商家ID="+sellerId.toString());
-        return recordRepository.findAllBySellerId(sellerId);
+        return recordRepository.findAllBySellerId(sellerId, pageable);
     }
 
     @Override
-    public List<Record> findRecordOfBuyer(Long buyerId){
+    public Page<Record> findRecordOfSeller(Long sellerId,int pageNum, int pageLimit){
+        Pageable pageable = PageRequest.of(pageNum, pageLimit, new Sort(Sort.Direction.DESC, "record_id"));
+        return findRecordOfSeller(sellerId, pageable);
+    }
+
+    @Override
+    public Page<Record> findRecordOfBuyer(Long buyerId, Pageable pageable){
         log.info("查询买家所有订单：商家ID="+buyerId.toString());
-        return recordRepository.findAllByBuyerId(buyerId);
+        return recordRepository.findAllByBuyerId(buyerId, pageable);
+    }
+
+    @Override
+    public Page<Record> findRecordOfBuyer(Long buyerId, int pageNum, int pageLimit){
+        Pageable pageable = PageRequest.of(pageNum, pageLimit, new Sort(Sort.Direction.DESC, "record_id"));
+        return findRecordOfBuyer(buyerId, pageable);
     }
 }

@@ -7,8 +7,8 @@ package chd.shoppingonline.service;
  */
 
 import chd.shoppingonline.entity.Commodity;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CommodityService {
     //添加商品
@@ -19,11 +19,16 @@ public interface CommodityService {
 
     //查询商品
     Commodity findCommodity(Long commodityId);
-    List<Commodity> findCommodity(String commodityname);
+    //List<Commodity> findCommodity(String commodityname);//弃用
+    Page<Commodity> findCommodity(String commodityname, Pageable pageable);
+    Page<Commodity> findCommodity(String commodityname, int pageNum, int pageLimit);//按照ID逆序排列
 
     //查询所有商品
-    List<Commodity> findAllCommodity();
+    //List<Commodity> findAllCommodity();//弃用
+    Page<Commodity> findAllCommodity(Pageable pageable);
+    Page<Commodity> findAllCommodity(int pageNum, int pageLimit);//按照ID逆序排列
 
+    /*******************以下方法不建议Controller层调用**************************************************************/
     //交易商品
     Boolean transactCommodity(Long commodityId);
 }
