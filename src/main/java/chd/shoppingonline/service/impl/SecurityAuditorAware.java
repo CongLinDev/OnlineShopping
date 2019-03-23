@@ -11,10 +11,12 @@ import chd.shoppingonline.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Slf4j
+@Component("auditorAware")
 public class SecurityAuditorAware implements AuditorAware<Long> {
     @Autowired
     private UserService userService;

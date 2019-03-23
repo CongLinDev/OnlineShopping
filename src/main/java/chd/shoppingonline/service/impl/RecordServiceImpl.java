@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
+
 @Service
 @Slf4j
 public class RecordServiceImpl implements RecordService {
@@ -36,19 +37,18 @@ public class RecordServiceImpl implements RecordService {
     private UserService userService;
 
     @Override
-    public Record addRecord(Long commodityId, Long buyerId){
-        return addRecord(commodityId, buyerId, null);
+    public Record addRecord(Long commodityId, Long buyerId, int num){
+        return addRecord(commodityId, buyerId, num, null);
     }
 
     @Override
     @Transactional
-    public Record addRecord(Long commodityId, Long buyerId, String remarks){
+    public Record addRecord(Long commodityId, Long buyerId, int num,String remarks){
         Commodity commodity = commodityService.findCommodity(commodityId);
         Long sellerId = commodity.getCreatedBy();
 
-        if(userService.updateUserBalance(buyerId, commodity.getPrice(), false) &&
-            userService.updateUserBalance(sellerId, commodity.getPrice(),true) &&
-            commodityService.transactCommodity(commodityId)
+        if(userService.payBalance(buyerId, commodity.getPrice() * num) && //买家付钱
+            commodityService.transactCommodity(commodityId, num) //交易物品
         ){
             Record record = new Record();
             record.builder()
@@ -56,13 +56,24 @@ public class RecordServiceImpl implements RecordService {
                     .buyerId(buyerId)
                     .sellerId(sellerId)
                     .recordTime(new Date())
+                    .exchangeNumber(num)
                     .remarks(remarks)
+                    .isFinished(false)
                     .build();
             log.info("创建订单："+ record.toString());
             return recordRepository.save(record);
         }
         log.info("创建订单失败");
         return null;
+    }
+
+    @Override
+    public void ensureRecord(Long recordId, String comment){
+        Record record = recordRepository.findById(recordId).get();
+        recordRepository.updateById(recordId, comment, true);
+        userService.getBalance(record.getSellerId(),
+                commodityService.findCommodity(record.getCommodityId()).getPrice() * record.getExchangeNumber());
+        log.info("买家ID="+record.getBuyerId()+"确认订单，订单ID="+recordId);
     }
 
     @Override

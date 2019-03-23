@@ -1,9 +1,9 @@
 spring:
   datasource:
-    name:
-    url:
-    username:
-    password:
+    name: online_shopping
+    url: jdbc:mysql://localhost:3306/online_shopping?serverTimezone=UTC&characterEncoding=UTF-8
+    username: admin
+    password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database: mysql

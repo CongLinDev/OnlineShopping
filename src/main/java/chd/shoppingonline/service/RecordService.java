@@ -12,8 +12,11 @@ import org.springframework.data.domain.Pageable;
 
 public interface RecordService {
     //生成订单
-    Record addRecord(Long commodityId, Long buyerId);
-    Record addRecord(Long commodityId, Long buyerId, String remarks);
+    Record addRecord(Long commodityId, Long buyerId, int num);
+    Record addRecord(Long commodityId, Long buyerId, int num,String remarks);
+
+    //确认订单
+    void ensureRecord(Long recordId, String comment);
 
     //查询订单
     Record findRecord(Long recordId);//通过订单ID查询

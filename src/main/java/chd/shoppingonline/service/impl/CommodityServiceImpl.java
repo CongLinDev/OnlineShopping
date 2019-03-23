@@ -41,23 +41,34 @@ public class CommodityServiceImpl implements CommodityService {
         return commodityRepository.findById(commodityId).get();
     }
 
+
     @Override
-    public Page<Commodity> findCommodity(String commodityname, Pageable pageable){
-        log.info("查询商品：NAME=" + commodityname);
-        return commodityRepository.findAllByCommodityname(commodityname, pageable);
+    public Page<Commodity> findCommodity(String search, Pageable pageable){
+        log.info("查询商品：SEARCH=" + search);
+//        Specification<Commodity> specification = new Specification<Commodity>() {
+//            @Override
+//            public Predicate toPredicate(Root<Commodity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+//                String wrapSearch = "%" + search + "%";
+//                Path<String> name = root.get("commodityname");
+//                Path<String> description = root.get("description")
+//                Predicate <>
+//                return null;
+//            }
+//        }
+        return commodityRepository.findAllByCommodityname(search, pageable);
     }
 
     @Override
-    public Page<Commodity> findCommodity(String commodityname, int pageNum, int pageLimit){
+    public Page<Commodity> findCommodity(String search, int pageNum, int pageLimit){
         Pageable pageable = PageRequest.of(pageNum, pageLimit, new Sort(Sort.Direction.DESC, "commodity_id"));
-        return findCommodity(commodityname, pageable);
+        return findCommodity(search, pageable);
     }
 
     //获取所有用户
     @Override
     public Page<Commodity> findAllCommodity(Pageable pageable){
         log.info("查询所有商品");
-        return commodityRepository.findAllCommodity(pageable);
+        return commodityRepository.findAll(pageable);
     }
 
     @Override
@@ -68,13 +79,13 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     @Transactional
-    public Boolean transactCommodity(Long commodityId){
+    public Boolean transactCommodity(Long commodityId, int num){
         Integer stock = commodityRepository.findStockById(commodityId);
-        if(stock <= 0){
+        if(stock <= num){
             log.info("商品 ID="+ commodityId.toString() + " 库存为" + stock.toString() + " ：库存不足");
             return false;
         }
-        commodityRepository.updateByCommodityId(commodityId, stock - 1);
+        commodityRepository.updateByCommodityId(commodityId, stock - num);
         log.info("商品 ID="+ commodityId.toString() + " 当前库存为" + stock.toString() + " ：库存充足");
         return true;
     }

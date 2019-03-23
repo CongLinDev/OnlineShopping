@@ -19,16 +19,15 @@ public interface CommodityService {
 
     //查询商品
     Commodity findCommodity(Long commodityId);
-    //List<Commodity> findCommodity(String commodityname);//弃用
-    Page<Commodity> findCommodity(String commodityname, Pageable pageable);
-    Page<Commodity> findCommodity(String commodityname, int pageNum, int pageLimit);//按照ID逆序排列
+    Page<Commodity> findCommodity(String search, Pageable pageable);
+    Page<Commodity> findCommodity(String search, int pageNum, int pageLimit);//按照ID逆序排列
+
 
     //查询所有商品
-    //List<Commodity> findAllCommodity();//弃用
     Page<Commodity> findAllCommodity(Pageable pageable);
     Page<Commodity> findAllCommodity(int pageNum, int pageLimit);//按照ID逆序排列
 
     /*******************以下方法不建议Controller层调用**************************************************************/
     //交易商品
-    Boolean transactCommodity(Long commodityId);
+    Boolean transactCommodity(Long commodityId, int num);
 }

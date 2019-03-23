@@ -6,7 +6,10 @@ package chd.shoppingonline.entity;
  * @Description 商品类
  */
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,11 +18,16 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "commodity", schema = "commodity")
 @Data
 @DynamicUpdate
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder(toBuilder = true)
 public class Commodity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,6 +66,20 @@ public class Commodity {
     @Column(name = "description")
     private String description;//产品描述
 
+    @Column(name = "tags")
+    private String[] tags;//标签
+
     @Column(name = "pictures")
     private String[] pictures;//产品图片，将图片上传至网络图床，数组保存url，节省服务端存储空间
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="commodity_id")
+    @OrderBy("record_id DESC")//按record_id降序排列
+    private List<Record> records;
+
+    public List<String> getComments(){
+        return records.stream()
+                .map(record -> record.getComment())
+                .collect(Collectors.toList());
+    }
 }

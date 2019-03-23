@@ -46,6 +46,11 @@ public class User {
     @OrderBy("commodity_id DESC")//按commodity_id降序排列
     private List<Commodity> sells;
 
+//    //购物车
+//    @ManyToMany(cascade = CascadeType.REFRESH)
+//    @JoinTable(name = "shopping_trolley", inverseJoinColumns = @JoinColumn(name = "user_id"), joinColumns = @JoinColumn(name = "commodity_id"))
+//    private List<Commodity> shoppingTrolley;
+
     public User(User that){
         this.id = that.getId();
         this.username = that.getUsername();

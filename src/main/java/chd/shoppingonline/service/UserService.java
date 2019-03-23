@@ -30,5 +30,8 @@ public interface UserService {
 
     /*******************以下方法不建议Controller层调用**************************************************************/
     //更新用户账户余额
+    Boolean payBalance(Long userId, Double transactionBalance);//买家付钱
+    Boolean getBalance(Long userId, Double transactionBalance);//卖家收钱
+
     Boolean updateUserBalance(Long userId, Double transactionBalance, Boolean isSeller);
 }

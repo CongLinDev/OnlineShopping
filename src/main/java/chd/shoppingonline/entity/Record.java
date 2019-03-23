@@ -7,9 +7,11 @@ package chd.shoppingonline.entity;
  * @Description 交易记录
  */
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -18,8 +20,10 @@ import java.util.Date;
 @Entity
 @Table(name = "record", schema = "record")
 @Data
+@DynamicUpdate
+@AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,9 +43,22 @@ public class Record {
     private Long buyerId;//买家Id
 
     @NotEmpty
+    @Column(name = "is_finished")
+    private Boolean isFinished;
+
+    @Column(name = "express_id")
+    private Long expressId;//快递单号
+
+    @Column(name = "exchange_number")
+    private int exchangeNumber;//交易数量
+
+    @NotEmpty
     @Column(name = "record_time")
     private Date recordTime;
 
     @Column(name = "remarks")
     private String remarks;//备注
+
+    @Column(name = "comments")
+    private String comment;//用户评论
 }

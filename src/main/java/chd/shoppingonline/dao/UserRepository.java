@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Page<User> findAllUser(Pageable pageable);
+    Page<User> findAll(Pageable pageable);
 
     User findByUsername(String username);
     void deleteByUsername(String username);

@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     //获取所有用户
     @Override
     public Page<User> findAllUser(Pageable pageable){
-        return userRepository.findAllUser(pageable);
+        return userRepository.findAll(pageable);
     }
 
     @Override
@@ -100,12 +100,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 log.info("更新用户余额失败：交易金钱数量大于买家余额");
                 return false;
             }
+            log.info("买家支付："+ transactionBalance.toString());
             userRepository.updateBalanceByUserId(userId, balance - transactionBalance);
         }else{//如果是卖家
+            log.info("卖家收款："+ transactionBalance.toString());
             userRepository.updateBalanceByUserId(userId, balance + transactionBalance);
         }
         log.info("更新用户余额成功");
         return true;
+    }
+
+    @Override
+    public Boolean payBalance(Long userId, Double transactionBalance){
+        return updateUserBalance(userId, transactionBalance, false);
+    }
+
+    @Override
+    public Boolean getBalance(Long userId, Double transactionBalance){
+        return updateUserBalance(userId, transactionBalance, true);
     }
 
     /**********************以下实现UserDetailsService接口****************/
