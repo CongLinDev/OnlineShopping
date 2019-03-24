@@ -6,17 +6,18 @@ package chd.shoppingonline.service;
  * @Description RecordService
  */
 
+import chd.shoppingonline.entity.ConsigneeInformation;
 import chd.shoppingonline.entity.Record;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface RecordService {
     //生成订单
-    Record addRecord(Long commodityId, Long buyerId, int num);
-    Record addRecord(Long commodityId, Long buyerId, int num,String remarks);
+    Record addRecord(Long commodityId, Long buyerId, int num, ConsigneeInformation consigneeInformation);
+    Record addRecord(Long commodityId, Long buyerId, int num,String remarks, ConsigneeInformation consigneeInformation);
 
     //确认订单
-    void ensureRecord(Long recordId, String comment);
+    void ensureRecord(Long recordId, String comment, short star);
 
     //查询订单
     Record findRecord(Long recordId);//通过订单ID查询

@@ -25,6 +25,6 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "update Record record set record.comment = :comment, record.isFinished = :isFinished where record.id = :recordId")
-    void updateById(@Param("recordId")Long recordId, @Param("comment")String comment, @Param("isFinished")Boolean isFinished);
+    @Query(value = "update Record record set record.comment = :comment, record.isFinished = :isFinished, record.star = :star where record.id = :recordId")
+    void updateById(@Param("recordId")Long recordId, @Param("comment")String comment, @Param("star")short star,@Param("isFinished")Boolean isFinished);
 }

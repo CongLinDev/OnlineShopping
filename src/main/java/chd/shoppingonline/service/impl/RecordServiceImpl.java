@@ -8,6 +8,7 @@ package chd.shoppingonline.service.impl;
 
 import chd.shoppingonline.dao.RecordRepository;
 import chd.shoppingonline.entity.Commodity;
+import chd.shoppingonline.entity.ConsigneeInformation;
 import chd.shoppingonline.entity.Record;
 import chd.shoppingonline.service.CommodityService;
 import chd.shoppingonline.service.RecordService;
@@ -37,13 +38,13 @@ public class RecordServiceImpl implements RecordService {
     private UserService userService;
 
     @Override
-    public Record addRecord(Long commodityId, Long buyerId, int num){
-        return addRecord(commodityId, buyerId, num, null);
+    public Record addRecord(Long commodityId, Long buyerId, int num, ConsigneeInformation consigneeInformation){
+        return addRecord(commodityId, buyerId, num, null, consigneeInformation);
     }
 
     @Override
     @Transactional
-    public Record addRecord(Long commodityId, Long buyerId, int num,String remarks){
+    public Record addRecord(Long commodityId, Long buyerId, int num, String remarks, ConsigneeInformation consigneeInformation){
         Commodity commodity = commodityService.findCommodity(commodityId);
         Long sellerId = commodity.getCreatedBy();
 
@@ -59,6 +60,9 @@ public class RecordServiceImpl implements RecordService {
                     .exchangeNumber(num)
                     .remarks(remarks)
                     .isFinished(false)
+                    .name(consigneeInformation.getConsigneeName())
+                    .address(consigneeInformation.getConsigneeAddress())
+                    .phoneNumber(consigneeInformation.getConsigneePhoneNumber())
                     .build();
             log.info("创建订单："+ record.toString());
             return recordRepository.save(record);
@@ -68,9 +72,9 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public void ensureRecord(Long recordId, String comment){
+    public void ensureRecord(Long recordId, String comment, short star){
         Record record = recordRepository.findById(recordId).get();
-        recordRepository.updateById(recordId, comment, true);
+        recordRepository.updateById(recordId, comment, star,true);
         userService.getBalance(record.getSellerId(),
                 commodityService.findCommodity(record.getCommodityId()).getPrice() * record.getExchangeNumber());
         log.info("买家ID="+record.getBuyerId()+"确认订单，订单ID="+recordId);

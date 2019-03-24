@@ -15,6 +15,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -49,6 +50,7 @@ public class Record {
     @Column(name = "express_id")
     private Long expressId;//快递单号
 
+    @Size(min = 1)
     @Column(name = "exchange_number")
     private int exchangeNumber;//交易数量
 
@@ -61,4 +63,17 @@ public class Record {
 
     @Column(name = "comments")
     private String comment;//用户评论
+
+    @Column(name = "star")
+    @Size(min=1, max=5)
+    private short star;//评级
+
+    @Column(name = "name")
+    private String name;//收货人
+
+    @Column(name = "address")
+    private String address;//收货地址
+
+    @Column(name = "phone_number")
+    private String phoneNumber;//手机号
 }

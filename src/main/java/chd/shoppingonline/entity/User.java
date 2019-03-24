@@ -8,17 +8,20 @@ package chd.shoppingonline.entity;
  */
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user", schema = "user")
 @Data
 @DynamicUpdate
+@NoArgsConstructor
 public class User {
     @Id//主键
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自动生成ID
@@ -46,10 +49,21 @@ public class User {
     @OrderBy("commodity_id DESC")//按commodity_id降序排列
     private List<Commodity> sells;
 
-//    //购物车
-//    @ManyToMany(cascade = CascadeType.REFRESH)
-//    @JoinTable(name = "shopping_trolley", inverseJoinColumns = @JoinColumn(name = "user_id"), joinColumns = @JoinColumn(name = "commodity_id"))
-//    private List<Commodity> shoppingTrolley;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="consignee")
+    @OrderBy("consignee_information_id DESC")//按consignee_information_id降序排列
+    private List<ConsigneeInformation> consigneeInformation;//收货人信息
+
+    /**
+     * 购物车
+     * 关系被维护端
+     * 关系被维护端删除时，如果中间表存在些纪录的关联信息，则会删除失败
+     */
+    @ManyToMany(
+            cascade = CascadeType.REFRESH,
+            mappedBy = "shoppingTrolley",//通过维护端的属性关联
+            fetch = FetchType.LAZY)
+    private Set<Commodity> shoppingTrolley;
 
     public User(User that){
         this.id = that.getId();

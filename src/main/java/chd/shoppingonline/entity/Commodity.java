@@ -19,6 +19,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -72,13 +73,26 @@ public class Commodity {
     @Column(name = "pictures")
     private String[] pictures;//产品图片，将图片上传至网络图床，数组保存url，节省服务端存储空间
 
+    /**
+     * 购物车
+     * 关系维护端
+     * 关系维护端删除时，如果中间表存在些纪录的关联信息，则会删除该关联信息
+     */
+    @ManyToMany(cascade = CascadeType.REFRESH)
+    @JoinTable (//关联表
+            name = "shopping_trolley" , //关联表名
+            inverseJoinColumns = @JoinColumn (name = "user_id" ),//被维护端外键
+            joinColumns = @JoinColumn (name = "commodity_id" ))//维护端外键
+    private Set<Commodity> shoppingTrolley;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="commodity_id")
+    @JoinColumn(name="commodity_records", referencedColumnName="commodity_id")
     @OrderBy("record_id DESC")//按record_id降序排列
     private List<Record> records;
 
     public List<String> getComments(){
         return records.stream()
+                .filter(record -> record.getIsFinished())
                 .map(record -> record.getComment())
                 .collect(Collectors.toList());
     }
