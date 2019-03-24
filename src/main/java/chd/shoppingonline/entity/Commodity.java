@@ -83,10 +83,10 @@ public class Commodity {
             name = "shopping_trolley" , //关联表名
             inverseJoinColumns = @JoinColumn (name = "user_id" ),//被维护端外键
             joinColumns = @JoinColumn (name = "commodity_id" ))//维护端外键
-    private Set<Commodity> shoppingTrolley;
+    private Set<User> shoppingTrolley;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="commodity_records", referencedColumnName="commodity_id")
+    @JoinColumn(name="commodity_id")
     @OrderBy("record_id DESC")//按record_id降序排列
     private List<Record> records;
 

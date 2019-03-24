@@ -54,6 +54,11 @@ public class User {
     @OrderBy("consignee_information_id DESC")//按consignee_information_id降序排列
     private List<ConsigneeInformation> consigneeInformation;//收货人信息
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="buyer_id")
+    @OrderBy("record_id DESC")
+    private List<Record> hasBuyed;
+
     /**
      * 购物车
      * 关系被维护端
