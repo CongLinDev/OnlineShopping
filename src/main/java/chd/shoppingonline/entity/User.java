@@ -7,12 +7,13 @@ package chd.shoppingonline.entity;
  * @Description 用户类
  */
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +22,9 @@ import java.util.Set;
 @Table(name = "user", schema = "user")
 @Data
 @DynamicUpdate
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder(toBuilder = true)
 public class User {
     @Id//主键
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自动生成ID
@@ -40,7 +43,6 @@ public class User {
     private String roles;
 
     @Column(name="balance")
-    @NotEmpty
     private Double balance;
 
     //卖家卖的商品

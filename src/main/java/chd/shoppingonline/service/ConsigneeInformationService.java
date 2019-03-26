@@ -10,10 +10,10 @@ import chd.shoppingonline.entity.ConsigneeInformation;
 
 public interface ConsigneeInformationService {
     //增加收货信息
-    ConsigneeInformation addConsigneeInformation(String consigneeName, String consigneeAddress, String consigneePhoneNumber);
-    ConsigneeInformation addConsigneeInformation(ConsigneeInformation consigneeInformation);
+    ConsigneeInformation addConsigneeInformation(String consigneeName, String consigneeAddress, String consigneePhoneNumber, Long consigneeId);
+    ConsigneeInformation addConsigneeInformation(ConsigneeInformation consigneeInformation, Long consigneeId);
 
     //删除收货信息
-    ConsigneeInformation deleteConsigneeInformation(Long consigneeInformationId);
+    void deleteConsigneeInformation(Long consigneeInformationId);
 
 }
