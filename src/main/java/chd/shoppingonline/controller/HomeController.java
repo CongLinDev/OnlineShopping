@@ -24,6 +24,7 @@ public class HomeController {
         return "index";
     }
 
+    //@PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping(path="account/register")
     @ResponseBody
     public User register(@RequestParam("username")String username,
@@ -50,5 +51,10 @@ public class HomeController {
                 .balance(Double.valueOf(0.0))
                 .build());
     }
-
+    @PostMapping(path="account/login_json", produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public User login(@RequestBody User user) {
+        log.info("用户"+ user.getUsername() +"请求登陆");
+        return user;
+    }
 }

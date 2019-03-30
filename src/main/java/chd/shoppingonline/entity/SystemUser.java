@@ -6,6 +6,7 @@ package chd.shoppingonline.entity;
  * @Description 实现UserDetails，检查用户授权信息
  */
 
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 @ToString
+@NoArgsConstructor
 public class SystemUser extends User implements UserDetails {
     private boolean accountNonExpired;
     private boolean accountNonLocked;

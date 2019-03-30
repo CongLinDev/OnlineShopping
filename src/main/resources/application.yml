@@ -14,6 +14,22 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
 
+
+api:
+  service:
+    account:
+      login: /account/login
+      register: /account/register
+      logout: /account/logout
+
+jwt:
+  header: jwtHeader
+  secret: eyJleHAiOjE1NDMyMDUyODUsInN1YiI6ImFkbWluIiwiY3JlYXRlZCI6MTU0MDYxMzI4N
+  expiration: 120000   #毫秒
 #  thymeleaf:
 #    cache: false
