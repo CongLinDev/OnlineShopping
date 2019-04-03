@@ -7,6 +7,7 @@ package chd.shoppingonline.entity;
  * @Description 用户类
  */
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,10 +36,12 @@ public class User {
     @Column(name = "username", unique = true)
     private String username;
 
+    @JsonIgnore
     @Size(min=6, message="密码不得小于6个字符")
     @Column(name = "password")
     private String password;
 
+    @JsonIgnore
     @Column(name = "roles")
     private String roles;
 
@@ -46,16 +49,19 @@ public class User {
     private Double balance;
 
     //卖家卖的商品
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="created_by")
     @OrderBy("commodity_id DESC")//按commodity_id降序排列
     private List<Commodity> sells;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="consignee")
     @OrderBy("consignee_information_id DESC")//按consignee_information_id降序排列
     private List<ConsigneeInformation> consigneeInformation;//收货人信息
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="buyer_id")
     @OrderBy("record_id DESC")
@@ -70,6 +76,7 @@ public class User {
             cascade = CascadeType.REFRESH,
             mappedBy = "shoppingTrolley",//通过维护端的属性关联
             fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Commodity> shoppingTrolley;
 
     public User(User that){

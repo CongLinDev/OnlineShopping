@@ -51,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .failureUrl("/account/login?error=true")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                //.defaultSuccessUrl("/user")//登陆成功后跳转到 /user
+                .defaultSuccessUrl("/user")//登陆成功后跳转到 /user
                 .permitAll()
                 .and()
             .logout()
