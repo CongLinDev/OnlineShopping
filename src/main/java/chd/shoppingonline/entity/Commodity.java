@@ -23,7 +23,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "commodity", schema = "commodity")
+@Table(name = "commodity", schema = "commodity",
+        indexes = {
+                @Index(name = "commodityname", columnList = "commodityname"),
+                @Index(name= "created_by", columnList = "created_by"),
+                @Index(name = "commodity_id", columnList = "commodity_id")})
 @Data
 @DynamicUpdate
 @AllArgsConstructor
@@ -67,11 +71,25 @@ public class Commodity {
     @Column(name = "description")
     private String description;//产品描述
 
-    @Column(name = "tags")
-    private String[] tags;//标签
-
     @Column(name = "pictures")
-    private String[] pictures;//产品图片，将图片上传至网络图床，数组保存url，节省服务端存储空间
+    private String pictures;//产品图片，将图片上传至网络图床，数组保存url，节省服务端存储空间\
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="commodity_id")
+    @OrderBy("record_id DESC")//按record_id降序排列
+    private List<Record> records;
+
+    /**
+     * 标签
+     * 关系维护端
+     * 关系维护端删除时，如果中间表存在些纪录的关联信息，则会删除该关联信息
+     */
+    @ManyToMany(cascade = CascadeType.REFRESH)
+    @JoinTable (//关联表
+            name = "commodity_tag_relation" , //关联表名
+            inverseJoinColumns = @JoinColumn (name = "commodity_tag_id" ),//被维护端外键
+            joinColumns = @JoinColumn (name = "commodity_id" ))//维护端外键
+    private Set<CommodityTag> tags;
 
     /**
      * 购物车
@@ -84,11 +102,6 @@ public class Commodity {
             inverseJoinColumns = @JoinColumn (name = "user_id" ),//被维护端外键
             joinColumns = @JoinColumn (name = "commodity_id" ))//维护端外键
     private Set<User> shoppingTrolley;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="commodity_id")
-    @OrderBy("record_id DESC")//按record_id降序排列
-    private List<Record> records;
 
     public List<String> getComments(){
         return records.stream()

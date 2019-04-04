@@ -17,7 +17,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "consignee_information", schema = "consignee_information")
+@Table(name = "consignee_information", schema = "consignee_information",
+        indexes = {@Index(name = "consignee_information_id", columnList = "consignee_information_id")})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

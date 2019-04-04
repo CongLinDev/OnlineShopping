@@ -20,7 +20,9 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "user", schema = "user")
+@Table(name = "user", schema = "user",
+        indexes = {@Index(name = "user_id", columnList = "user_id"),
+                @Index(name= "username", columnList = "username")})
 @Data
 @DynamicUpdate
 @AllArgsConstructor

@@ -19,7 +19,8 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
-@Table(name = "record", schema = "record")
+@Table(name = "record", schema = "record",
+        indexes = {@Index(name = "record_id", columnList = "record_id")})
 @Data
 @DynamicUpdate
 @AllArgsConstructor
