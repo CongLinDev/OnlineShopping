@@ -1,4 +1,4 @@
-package chd.shoppingonline.service.impl;
+package chd.shoppingonline.service.basic.impl;
 /*
  * @ClassName ConsigneeInformationServiceImpl
  * @Author 从林
@@ -8,7 +8,7 @@ package chd.shoppingonline.service.impl;
 
 import chd.shoppingonline.dao.ConsigneeInformationRepository;
 import chd.shoppingonline.entity.ConsigneeInformation;
-import chd.shoppingonline.service.ConsigneeInformationService;
+import chd.shoppingonline.service.basic.ConsigneeInformationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,26 +20,24 @@ public class ConsigneeInformationServiceImpl implements ConsigneeInformationServ
     ConsigneeInformationRepository consigneeInformationRepository;
 
     @Override
-    public ConsigneeInformation addConsigneeInformation(String consigneeName, String consigneeAddress, String consigneePhoneNumber, Long consigneeId){
-        ConsigneeInformation consigneeInformation = new ConsigneeInformation();
-        consigneeInformation.toBuilder()
+    public ConsigneeInformation addConsigneeInformation(String consigneeName, String consigneeAddress, String consigneePhoneNumber){
+        ConsigneeInformation consigneeInformation = ConsigneeInformation.builder()
                 .consigneeAddress(consigneeAddress)
                 .consigneeName(consigneeName)
                 .consigneePhoneNumber(consigneePhoneNumber)
                 .build();
-        return addConsigneeInformation(consigneeInformation, consigneeId);
+        return addConsigneeInformation(consigneeInformation);
     }
 
     @Override
-    public ConsigneeInformation addConsigneeInformation(ConsigneeInformation consigneeInformation, Long consigneeId){
-        consigneeInformation.setConsignee(consigneeId);
-        log.info("用户USERID="+consigneeId + " 添加收货信息 "+ consigneeInformation.toString());
+    public ConsigneeInformation addConsigneeInformation(ConsigneeInformation consigneeInformation){
+        log.debug("用户添加收货信息 "+ consigneeInformation.toString());
         return consigneeInformationRepository.save(consigneeInformation);
     }
 
     @Override
     public void deleteConsigneeInformation(Long consigneeInformationId){
-        log.info("删除收货信息 CONSIGNEEINFORMATIONID="+ consigneeInformationId.toString());
+        log.debug("删除收货信息 ConsigneeInformationId="+ consigneeInformationId.toString());
         consigneeInformationRepository.deleteById(consigneeInformationId);
     }
 }

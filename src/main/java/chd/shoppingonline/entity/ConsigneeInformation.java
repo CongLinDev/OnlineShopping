@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -24,30 +23,30 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class ConsigneeInformation {
-    private static final String PHONE_NUMBER_REG = "^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$";
 
     @Id//主键
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自动生成ID
     @Column(name = "consignee_information_id")
-    private Long id;//收货信息id
+    private Long consigneeInformationId;//收货信息id
 
     @CreatedBy
     @Column(
-            name = "consignee",
+            name = "consignee_id",
             nullable = false,
             updatable = false
     )
-    private Long consignee;
+    private Long consigneeId;
 
     @Size(max=10)
-    @Column(name = "consignee_name")
+    @Column(name = "consignee_name", columnDefinition = "varchar(10)")
     private String consigneeName;//收货人
 
-    @Size(min=5)
-    @Column(name = "consignee_address")
+    @Column(name = "consignee_address", columnDefinition = "varchar(50)")
     private String consigneeAddress;//收货地址
 
-    @Pattern(regexp = PHONE_NUMBER_REG)
-    @Column(name = "consignee_phone_number")
+    @Column(name = "consignee_phone_number", columnDefinition = "char(13)")
     private String consigneePhoneNumber;//手机号
+
+    @Column(name = "valid")
+    private Boolean valid;//有效性
 }

@@ -16,11 +16,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findAll(Pageable pageable);
 
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
     void deleteByUsername(String username);
 
     Double findBalanceById(Long userId);
@@ -29,4 +31,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query(value = "update User user set user.balance = :balance where user.id = :userId")
     void updateBalanceByUserId(@Param("userId")Long userId, @Param("balance") double balance);
+
+    @Modifying
+    @Query(value = "update User user set user.enabled = :enabled where user.id = :userId")
+    void updateUserState(@Param("userId")Long userId, @Param("enabled") Boolean enabled);
 }

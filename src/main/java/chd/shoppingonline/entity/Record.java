@@ -12,11 +12,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "record", schema = "record",
@@ -30,51 +30,54 @@ public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "record_id")
-    private Long id;
+    private Long recordId;
 
-    @NotEmpty
-    @Column(name = "commodity_id")
-    private Long commodityId;
+    @CreatedDate
+    @Column(name = "create_time")
+    private LocalDateTime createTime;
 
-    @NotEmpty
-    @Column(name = "seller_id")
-    private Long sellerId;//卖家Id
-
-    @NotEmpty
+    @CreatedBy
     @Column(name = "buyer_id")
-    private Long buyerId;//买家Id
+    private Long buyerId;
 
-    @NotEmpty
-    @Column(name = "is_finished")
-    private Boolean isFinished;
+    @Column(name= "consignee_information_id")
+    private Long consigneeInformationId;
 
-    @Column(name = "express_id")
-    private Long expressId;//快递单号
-
-    @Size(min = 1)
-    @Column(name = "exchange_number")
-    private int exchangeNumber;//交易数量
-
-    @NotEmpty
-    @Column(name = "record_time")
-    private Date recordTime;
-
-    @Column(name = "remarks")
-    private String remarks;//备注
-
-    @Column(name = "comments")
-    private String comment;//用户评论
-
-    @Column(name = "star")
-    @Size(min=1, max=5)
-    private short star;//评级
-
-    @Column(name = "name")
-    private String name;//收货人
-
-    @Column(name = "address")
-    private String address;//收货地址
-
-    @Column(name = "phone_number")
-    private String phoneNumber;//手机号
+//
+//    @Column(name = "buyer_id", nullable = false)
+//    private Long buyerId;//买家Id
+//
+//    @NotEmpty
+//    @Column(name = "is_finished")
+//    private Boolean isFinished;//订单是否完成
+//
+//    @Column(name = "express_id")
+//    private Long expressId;//快递单号
+//
+//    @NotEmpty
+//    @Column(name = "record_time")
+//    private LocalDateTime recordTime;//生成订单时间
+//
+//    // 备注
+//    // 备注的作用是记录是否有取消订单的情况
+//    // 若存在取消订单的情况，则备注指向退款订单
+//    // 若不存在，则为null
+//    @Column(name = "remarks")
+//    private Long remarks;
+//
+//    @Column(name = "comments")
+//    private String comment;//用户评论
+//
+//    @Column(name = "star")
+//    @Size(min=1, max=5)
+//    private short star;//评级
+//
+//    @Column(name = "name")
+//    private String name;//收货人
+//
+//    @Column(name = "address")
+//    private String address;//收货地址
+//
+//    @Column(name = "phone_number")
+//    private String phoneNumber;//手机号
 }

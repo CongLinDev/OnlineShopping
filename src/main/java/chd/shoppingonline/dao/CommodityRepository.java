@@ -13,7 +13,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,10 +21,8 @@ public interface CommodityRepository extends JpaRepository<Commodity, Long>, Jpa
     Page<Commodity> findAllByCommodityname(String commodityname, Pageable pageable);
     Page<Commodity> findAll(Pageable pageable);
 
-    Integer findStockById(Long commodityId);
-
     @Transactional
     @Modifying
-    @Query(value = "update Commodity commodity set commodity.stock = :stock where commodity.id = :commodityId")
-    void updateByCommodityId(@Param("commodityId")Long commodityId, @Param("stock") double stock);
+    @Query(value = "update Commodity commodity set commodity.stock = ?3 where commodity.commodityId = ?1 and commodity.stock = ?2")
+    void updateStockByCommodityId(Long commodityId, Integer currentStock,Integer expectStock);
 }

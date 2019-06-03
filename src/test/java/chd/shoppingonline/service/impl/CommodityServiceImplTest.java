@@ -1,7 +1,6 @@
 package chd.shoppingonline.service.impl;
 
-import chd.shoppingonline.entity.Commodity;
-import chd.shoppingonline.service.CommodityService;
+import chd.shoppingonline.service.basic.CommodityService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,12 +27,7 @@ public class CommodityServiceImplTest {
 
     @Test
     public void addCommodity() {
-        Commodity commodity = new Commodity();
-        commodity.builder().stock(10)
-                .price(15.2)
-                .commodityname("good")
-                .build();
-        commodityService.addCommodity(commodity);
+
     }
 
     @Test

@@ -1,4 +1,4 @@
-package chd.shoppingonline.service.impl;
+package chd.shoppingonline.service.basic.impl;
 /*
  * @ClassName CommodityServiceImpl
  * @Author 从林
@@ -8,7 +8,7 @@ package chd.shoppingonline.service.impl;
 
 import chd.shoppingonline.dao.CommodityRepository;
 import chd.shoppingonline.entity.Commodity;
-import chd.shoppingonline.service.CommodityService;
+import chd.shoppingonline.service.basic.CommodityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -25,36 +24,26 @@ public class CommodityServiceImpl implements CommodityService {
     private CommodityRepository commodityRepository;
 
     public Commodity addCommodity(Commodity commodity){
-        log.info("添加商品：" + commodity.toString());
+        log.debug("添加商品：" + commodity.toString());
         return commodityRepository.save(commodity);
     }
 
     @Override
     public void deleteCommodity(Long commodityId){
-        log.info("删除商品：ID=" + commodityId.toString());
+        log.debug("删除商品：ID=" + commodityId.toString());
         commodityRepository.deleteById(commodityId);
     }
 
     @Override
     public Commodity findCommodity(Long commodityId){
-        log.info("查询商品：ID=" + commodityId.toString());
-        return commodityRepository.findById(commodityId).get();
+        log.debug("查询商品：ID=" + commodityId.toString());
+        return commodityRepository.findById(commodityId).orElse(null);
     }
 
 
     @Override
     public Page<Commodity> findCommodity(String search, Pageable pageable){
-        log.info("查询商品：SEARCH=" + search);
-//        Specification<Commodity> specification = new Specification<Commodity>() {
-//            @Override
-//            public Predicate toPredicate(Root<Commodity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-//                String wrapSearch = "%" + search + "%";
-//                Path<String> name = root.get("commodityname");
-//                Path<String> description = root.get("description")
-//                Predicate <>
-//                return null;
-//            }
-//        }
+        log.debug("查询商品：SEARCH=" + search);
         return commodityRepository.findAllByCommodityname(search, pageable);
     }
 
@@ -64,10 +53,10 @@ public class CommodityServiceImpl implements CommodityService {
         return findCommodity(search, pageable);
     }
 
-    //获取所有用户
+
     @Override
     public Page<Commodity> findAllCommodity(Pageable pageable){
-        log.info("查询所有商品");
+        log.debug("查询所有商品");
         return commodityRepository.findAll(pageable);
     }
 
@@ -78,15 +67,10 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    @Transactional
-    public Boolean transactCommodity(Long commodityId, int num){
-        Integer stock = commodityRepository.findStockById(commodityId);
-        if(stock <= num){
-            log.info("商品 ID="+ commodityId.toString() + " 库存为" + stock.toString() + " ：库存不足");
-            return false;
-        }
-        commodityRepository.updateByCommodityId(commodityId, stock - num);
-        log.info("商品 ID="+ commodityId.toString() + " 当前库存为" + stock.toString() + " ：库存充足");
-        return true;
+    public void updateCommodityStock(Long commodityId ,Integer decreaseStock) {
+        Commodity commodity = commodityRepository.findById(commodityId).orElse(null);
+        if(commodity == null || commodity.getStock() < decreaseStock)
+            throw new IllegalArgumentException();
+        commodityRepository.updateStockByCommodityId(commodityId, commodity.getStock(), commodity.getStock() - decreaseStock);
     }
 }

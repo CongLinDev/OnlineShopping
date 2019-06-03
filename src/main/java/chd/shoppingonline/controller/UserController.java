@@ -7,7 +7,7 @@ package chd.shoppingonline.controller;
  */
 
 import chd.shoppingonline.entity.User;
-import chd.shoppingonline.service.UserService;
+import chd.shoppingonline.service.basic.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

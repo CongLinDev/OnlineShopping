@@ -1,4 +1,4 @@
-package chd.shoppingonline.service.impl;
+package chd.shoppingonline.service.basic.impl;
 /*
  * @ClassName SecurityAuditorAware
  * @Author 从林
@@ -7,7 +7,7 @@ package chd.shoppingonline.service.impl;
  */
 
 import chd.shoppingonline.entity.User;
-import chd.shoppingonline.service.UserService;
+import chd.shoppingonline.service.basic.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;
@@ -24,7 +24,7 @@ public class SecurityAuditorAware implements AuditorAware<Long> {
     @Override
     public Optional<Long> getCurrentAuditor(){
         User user = userService.findUser();//获得当前用户
-        log.info("AuditorAware:" + user.toString());
-        return Optional.ofNullable(user.getId());
+        log.debug("AuditorAware:" + user.toString());
+        return Optional.ofNullable(user.getUserId());
     }
 }
