@@ -7,7 +7,6 @@ package chd.shoppingonline.entity;
  * @Description 用户类
  */
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,9 +19,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "user", schema = "user",
-        indexes = {@Index(name = "user_id", columnList = "user_id"),
-                @Index(name= "username", columnList = "username")})
+@Table(name = "user", schema = "user")
 @Data
 @DynamicUpdate
 @AllArgsConstructor
@@ -38,13 +35,10 @@ public class User {
     @Column(name = "username", unique = true, columnDefinition="varchar(10)")
     private String username;
 
-    @JsonIgnore
-    @Size(min=6, message="密码不得小于6个字符")
     @Column(name = "password",columnDefinition="char(60)")
     @NotBlank
     private String password;
 
-    @JsonIgnore
     @Column(name = "roles", columnDefinition = "smallint unsigned")
     private Short roles;
 

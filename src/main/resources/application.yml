@@ -1,7 +1,7 @@
 spring:
   datasource:
     name: online_shopping
-    url: jdbc:mysql://localhost:3306/online_shopping?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/online_shopping?serverTimezone=UTC&characterEncoding=UTF-8&useSSL=false
     username: admin
     password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver

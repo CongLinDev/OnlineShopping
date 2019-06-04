@@ -14,5 +14,5 @@ import java.util.List;
 
 @Repository
 public interface ConsigneeInformationRepository extends JpaRepository<ConsigneeInformation, Long> {
-    List<ConsigneeInformation> findAllByConsignee(Long consigneeId);
+    List<ConsigneeInformation> findAllByConsigneeId(Long consigneeId);
 }

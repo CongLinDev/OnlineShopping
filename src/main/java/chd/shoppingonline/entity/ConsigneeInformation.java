@@ -16,8 +16,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "consignee_information", schema = "consignee_information",
-        indexes = {@Index(name = "consignee_information_id", columnList = "consignee_information_id")})
+@Table(name = "consignee_information", schema = "consignee_information")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -7,23 +7,19 @@ package chd.shoppingonline.controller;
  */
 
 import chd.shoppingonline.entity.User;
-import chd.shoppingonline.service.basic.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @Slf4j
 public class UserController {
 
-    @Autowired
-    UserService userService;
 
-    @GetMapping(path="/user")
-    @ResponseBody
-    public User user(){
-        return userService.findUser();
+    @PostMapping(path="/greeting")
+    public String user(@RequestBody User user){
+        System.out.println(user.toString());
+        return "done";
     }
 }

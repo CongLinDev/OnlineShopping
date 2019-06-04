@@ -44,7 +44,7 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public Page<Commodity> findCommodity(String search, Pageable pageable){
         log.debug("查询商品：SEARCH=" + search);
-        return commodityRepository.findAllByCommodityname(search, pageable);
+        return commodityRepository.findAllByCommodityName(search, pageable);
     }
 
     @Override

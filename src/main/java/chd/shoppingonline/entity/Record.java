@@ -19,8 +19,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "record", schema = "record",
-        indexes = {@Index(name = "record_id", columnList = "record_id")})
+@Table(name = "record", schema = "record")
 @Data
 @DynamicUpdate
 @AllArgsConstructor

@@ -18,6 +18,11 @@ public interface UserService {
      */
     User addUser(User user);
 
+    /**
+     * 保存用户
+     * @param user
+     * @return
+     */
     User saveUser(User user);
 
     /**
@@ -77,5 +82,4 @@ public interface UserService {
      * @param userId 用户ID
      */
     void enableUser(Long userId);
-
 }

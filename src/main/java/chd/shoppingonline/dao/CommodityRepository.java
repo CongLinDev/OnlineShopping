@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface CommodityRepository extends JpaRepository<Commodity, Long>, JpaSpecificationExecutor<Commodity> {
-    Page<Commodity> findAllByCommodityname(String commodityname, Pageable pageable);
+    Page<Commodity> findAllByCommodityName(String commodityname, Pageable pageable);
     Page<Commodity> findAll(Pageable pageable);
 
     @Transactional

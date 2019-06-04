@@ -25,8 +25,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
     void deleteByUsername(String username);
 
-    Double findBalanceById(Long userId);
-
     @Transactional
     @Modifying
     @Query(value = "update User user set user.balance = :balance where user.id = :userId")
