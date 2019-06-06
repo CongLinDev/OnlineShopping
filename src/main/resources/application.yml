@@ -1,10 +1,16 @@
 spring:
+  session:
+    store-type: redis
+    timeout: 2000
   datasource:
     name: online_shopping
-    url: jdbc:mysql://localhost:3306/online_shopping?serverTimezone=UTC&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/online_shopping?serverTimezone=UTC&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
     username: admin
     password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: localhost
+    port: 6379
   jpa:
     database: mysql
     hibernate:

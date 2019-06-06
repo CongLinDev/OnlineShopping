@@ -12,14 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @Slf4j
 public class UserController {
 
 
     @PostMapping(path="/greeting")
-    public String user(@RequestBody User user){
+    public String user(@RequestBody User user, HttpServletRequest request){
         System.out.println(user.toString());
-        return "done";
+        return request.getSession().getId();
     }
+
 }

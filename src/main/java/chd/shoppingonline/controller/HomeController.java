@@ -13,13 +13,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @Slf4j
 public class HomeController {
 
     @GetMapping(path={"/index", "/", ""})
-    public String index() {
-        return "index";
+    public String index(HttpServletRequest request) {
+        return request.getSession().getId();
     }
 
     @PostMapping(path="/account/register")
