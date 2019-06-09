@@ -57,7 +57,7 @@ public interface CommodityService {
      * @param pageable 页信息
      * @return
      */
-    Page<Commodity> findAllCommodity(Pageable pageable);
+    Page<Commodity> findAllCommodities(Pageable pageable);
 
     /**
      * 查询所有商品
@@ -65,7 +65,7 @@ public interface CommodityService {
      * @param pageLimit 页内信息数量
      * @return
      */
-    Page<Commodity> findAllCommodity(int pageNum, int pageLimit);//按照ID逆序排列
+    Page<Commodity> findAllCommodities(int pageNum, int pageLimit);//按照ID逆序排列
 
     /**
      * 更新库存

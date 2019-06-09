@@ -57,15 +57,15 @@ public class CommodityServiceImpl implements CommodityService {
 
 
     @Override
-    public Page<Commodity> findAllCommodity(Pageable pageable){
+    public Page<Commodity> findAllCommodities(Pageable pageable){
         log.debug("查询所有商品");
         return commodityRepository.findAll(pageable);
     }
 
     @Override
-    public Page<Commodity> findAllCommodity(int pageNum, int pageLimit){
+    public Page<Commodity> findAllCommodities(int pageNum, int pageLimit){
         Pageable pageable = PageRequest.of(pageNum, pageLimit, new Sort(Sort.Direction.DESC, "commodityId"));
-        return findAllCommodity(pageable);
+        return findAllCommodities(pageable);
     }
 
     @Override
@@ -102,6 +102,5 @@ public class CommodityServiceImpl implements CommodityService {
         if(!asc) order = Sort.Direction.DESC;
         return commodityRepository.findAllByCommodityType(className, PageRequest.of(page, max, new Sort(order, orderColumn))).getContent();
     }
-
-
+    
 }
