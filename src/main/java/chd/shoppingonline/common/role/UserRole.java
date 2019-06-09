@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 
 public enum UserRole {
     ROLE_ADMIN ((short)1,"ROLE_ADMIN"),
-    ROLE_TEACHER((short)(1 << 1), "ROLE_TEACHER"),
-    ROLE_STUDENT((short)(1 << 2), "ROLE_STUDENT");
+    ROLE_BUYER((short)(1 << 1), "ROLE_BUYER"),
+    ROLE_SELLER((short)(1 << 2), "ROLE_SELLER");
 
     private short shortValue;
     private String stringValue;

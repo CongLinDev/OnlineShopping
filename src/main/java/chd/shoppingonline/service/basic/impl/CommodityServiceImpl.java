@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class CommodityServiceImpl implements CommodityService {
@@ -49,7 +51,7 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public Page<Commodity> findCommodity(String search, int pageNum, int pageLimit){
-        Pageable pageable = PageRequest.of(pageNum, pageLimit, new Sort(Sort.Direction.DESC, "commodity_id"));
+        Pageable pageable = PageRequest.of(pageNum, pageLimit, new Sort(Sort.Direction.DESC, "commodityId"));
         return findCommodity(search, pageable);
     }
 
@@ -62,7 +64,7 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public Page<Commodity> findAllCommodity(int pageNum, int pageLimit){
-        Pageable pageable = PageRequest.of(pageNum, pageLimit, new Sort(Sort.Direction.DESC, "commodity_id"));
+        Pageable pageable = PageRequest.of(pageNum, pageLimit, new Sort(Sort.Direction.DESC, "commodityId"));
         return findAllCommodity(pageable);
     }
 
@@ -73,4 +75,33 @@ public class CommodityServiceImpl implements CommodityService {
             throw new IllegalArgumentException();
         commodityRepository.updateStockByCommodityId(commodityId, commodity.getStock(), commodity.getStock() - decreaseStock);
     }
+
+
+
+
+
+    @Override
+    public List<Commodity> findCommodity(String key, String className, Boolean asc, String orderColumn, Integer page, Integer max) {
+        var order = Sort.Direction.ASC;
+        if(!asc) order = Sort.Direction.DESC;
+
+        return commodityRepository.findAllByCommodityNameAndCommodityType(key, className, PageRequest.of(page,max, new Sort(order, orderColumn))).getContent();
+    }
+
+    @Override
+    public List<Commodity> findCommodity(String key, Boolean asc, String orderColumn, Integer page, Integer max) {
+        var order = Sort.Direction.ASC;
+        if(!asc) order = Sort.Direction.DESC;
+
+        return commodityRepository.findAllByCommodityName(key, PageRequest.of(page, max, new Sort(order, "commodityId"))).getContent() ;
+    }
+
+    @Override
+    public List<Commodity> findAllCommodities(String className, Boolean asc, String orderColumn, Integer page, Integer max) {
+        var order = Sort.Direction.ASC;
+        if(!asc) order = Sort.Direction.DESC;
+        return commodityRepository.findAllByCommodityType(className, PageRequest.of(page, max, new Sort(order, orderColumn))).getContent();
+    }
+
+
 }

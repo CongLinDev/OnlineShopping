@@ -11,21 +11,22 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "user", schema = "user")
 @Data
-@DynamicUpdate
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 3184902925414737238L;
     @Id//主键
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自动生成ID
     @Column(name = "user_id")

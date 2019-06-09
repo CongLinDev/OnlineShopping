@@ -77,6 +77,8 @@ public class Commodity {
     @Column(name="commodity_state", columnDefinition = "smallint")
     private Short commodityState;
 
+    @Column(name="commodity_type", columnDefinition = "varchar(10)")
+    private String commodityType;
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinColumn(name="commodity_id")
 //    @OrderBy("record_id DESC")//按record_id降序排列

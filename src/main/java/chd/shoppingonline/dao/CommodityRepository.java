@@ -18,7 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface CommodityRepository extends JpaRepository<Commodity, Long>, JpaSpecificationExecutor<Commodity> {
-    Page<Commodity> findAllByCommodityName(String commodityname, Pageable pageable);
+    @Query("select c from Commodity c where c.commodityName like %?1%")
+    Page<Commodity> findAllByCommodityName(String commodityName, Pageable pageable);
+
+    @Query("select c from Commodity c where c.commodityType = ?2 and c.commodityName like %?1%")
+    Page<Commodity> findAllByCommodityNameAndCommodityType(String commodityName, String commodityType, Pageable pageable);
+
+    @Query("select c from Commodity c where c.commodityType = ?1")
+    Page<Commodity> findAllByCommodityType(String commodityType, Pageable pageable);
+
     Page<Commodity> findAll(Pageable pageable);
 
     @Transactional

@@ -70,9 +70,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null)
             throw new NoSuchElementException();
-        User user = (User) authentication.getPrincipal();
+
+        System.out.println(authentication.getName());
+        UserDetails details = (UserDetails)(authentication.getPrincipal());
+        User user = User.builder().username(details.getUsername()).password(details.getPassword()).enabled(details.isEnabled()).build();
         log.debug("查询当前用户：" + user.toString());
-        return  user;
+        return user;
     }
 
     @Override
@@ -121,9 +124,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             log.error("加载用户失败");
             throw new UsernameNotFoundException(username + "not found");
         }
-
+        System.out.println("验证USER信息：" + user.toString());
         log.debug("验证USER信息：" + user.toString());
         return SystemUser.builder()
+                .user(user)
                 .accountNonExpired(true)
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)

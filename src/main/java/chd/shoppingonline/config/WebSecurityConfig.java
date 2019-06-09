@@ -43,22 +43,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/", "/index","/account/**", "/greeting").permitAll() //指定了/和/index 不需要任何认证就可以访问
+                .antMatchers("/account/**", "/search", "/class/**", "/class").permitAll() //指定了/和/index 不需要任何认证就可以访问
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
-                .loginProcessingUrl("/account/login")
-                .failureUrl("/account/login?error=true")
+                .loginPage("/account/login_form")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/user")//登陆成功后跳转到 /user
                 .permitAll()
                 .and()
             .logout()
                 .logoutUrl("/account/logout")
                 .logoutSuccessUrl("/index")
                 .permitAll()
-                .and()
+            .and()
                 .csrf().disable();
     }
 }
