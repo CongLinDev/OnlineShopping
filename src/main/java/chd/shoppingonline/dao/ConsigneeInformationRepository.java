@@ -7,6 +7,7 @@ package chd.shoppingonline.dao;
  */
 
 import chd.shoppingonline.entity.ConsigneeInformation;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +15,5 @@ import java.util.List;
 
 @Repository
 public interface ConsigneeInformationRepository extends JpaRepository<ConsigneeInformation, Long> {
-    List<ConsigneeInformation> findAllByConsigneeId(Long consigneeId);
+    List<ConsigneeInformation> findAllByConsigneeId(Long consigneeId) throws EmptyResultDataAccessException, IllegalArgumentException;
 }

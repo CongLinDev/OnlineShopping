@@ -47,6 +47,6 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public Record findRecord(Long recordId){
         log.debug("查询订单：ID="+recordId.toString());
-        return recordRepository.findById(recordId).orElse(null);
+        return recordRepository.findByRecordId(recordId);
     }
 }

@@ -7,8 +7,10 @@ package chd.shoppingonline.controller;
  */
 
 import chd.shoppingonline.entity.Commodity;
+import chd.shoppingonline.entity.RecordDetail;
 import chd.shoppingonline.entity.ReturnEntity;
 import chd.shoppingonline.service.basic.CommodityService;
+import chd.shoppingonline.service.basic.RecordDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +21,13 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/commodity")
 public class CommodityController {
     @Autowired
     private CommodityService commodityService;
+
+    @Autowired
+    private RecordDetailService recordDetailService;
 
     private Pair<String, Boolean> convertOrderType(String orderType){
         switch (orderType){
@@ -39,6 +45,16 @@ public class CommodityController {
     }
 
     @RequestMapping("/search")
+    /*
+    public ReturnEntity<List<Commodity>> search(@RequestBody QureyRequest query){
+        Pair<String, Boolean> pair = convertOrderType(query.getOrderType());
+        List<Commodity> comodities = commodityService.findCommodity(query.getSearch(),
+                pair.getSecond(),
+                pair.getFirst(),
+                query.getPage(),
+                query.getMax());
+        return ReturnEntity.<List<Commodity>>builder().code(true).content(comodities).build();
+    }*/
     public ReturnEntity<List<Commodity>> search(@RequestBody Map<String, Object> map){
         Pair<String, Boolean> pair = convertOrderType((String)map.get("orderType"));
         List<Commodity> comodities = commodityService.findCommodity((String)map.get("search"),
@@ -46,6 +62,7 @@ public class CommodityController {
                 pair.getFirst(),
                 (Integer)map.get("page"),
                 (Integer)map.get("max"));
+
         return ReturnEntity.<List<Commodity>>builder().code(true).content(comodities).build();
     }
 
@@ -61,7 +78,7 @@ public class CommodityController {
         return ReturnEntity.<List<Commodity>>builder().code(true).content(comodities).build();
     }
 
-    @RequestMapping("/class")
+    @RequestMapping("/class/all")
     public ReturnEntity<List<Commodity>> searchAll(@RequestBody Map<String, Object> map){
         Pair<String, Boolean> pair = convertOrderType((String)map.get("orderType"));
         List<Commodity> comodities = commodityService.findAllCommodities((String)map.get("className"),
@@ -70,5 +87,11 @@ public class CommodityController {
                 (Integer)map.get("page"),
                 (Integer)map.get("max"));
         return ReturnEntity.<List<Commodity>>builder().code(true).content(comodities).build();
+    }
+
+    @RequestMapping("/details")
+    public ReturnEntity<List<RecordDetail>> getRecordDetailsOf(@RequestBody Long commodityId){
+        List<RecordDetail> recordDetails = recordDetailService.findRecordDetailsByCommodityId(commodityId);
+        return ReturnEntity.<List<RecordDetail>>builder().code(true).content(recordDetails).build();
     }
 }

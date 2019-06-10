@@ -7,6 +7,7 @@ package chd.shoppingonline.dao;
  */
 
 import chd.shoppingonline.entity.Commodity;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,18 +20,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface CommodityRepository extends JpaRepository<Commodity, Long>, JpaSpecificationExecutor<Commodity> {
     @Query("select c from Commodity c where c.commodityName like %?1%")
-    Page<Commodity> findAllByCommodityName(String commodityName, Pageable pageable);
+    Page<Commodity> findAllByCommodityName(String commodityName, Pageable pageable)throws EmptyResultDataAccessException, IllegalArgumentException;
 
     @Query("select c from Commodity c where c.commodityType = ?2 and c.commodityName like %?1%")
-    Page<Commodity> findAllByCommodityNameAndCommodityType(String commodityName, String commodityType, Pageable pageable);
+    Page<Commodity> findAllByCommodityNameAndCommodityType(String commodityName, String commodityType, Pageable pageable) throws EmptyResultDataAccessException, IllegalArgumentException;
 
     @Query("select c from Commodity c where c.commodityType = ?1")
-    Page<Commodity> findAllByCommodityType(String commodityType, Pageable pageable);
+    Page<Commodity> findAllByCommodityType(String commodityType, Pageable pageable) throws EmptyResultDataAccessException, IllegalArgumentException;
 
-    Page<Commodity> findAll(Pageable pageable);
+    Page<Commodity> findAll(Pageable pageable) throws EmptyResultDataAccessException, IllegalArgumentException;
 
     @Transactional
     @Modifying
     @Query(value = "update Commodity commodity set commodity.stock = ?3 where commodity.commodityId = ?1 and commodity.stock = ?2")
     void updateStockByCommodityId(Long commodityId, Integer currentStock,Integer expectStock);
+
+    Commodity findByCommodityId(Long commodityId) throws EmptyResultDataAccessException, IllegalArgumentException;
 }

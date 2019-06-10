@@ -44,7 +44,6 @@ public class User implements Serializable {
     private Short roles;
 
     @Column(name="balance")
-    @NotNull
     private Double balance;
 
     @Column(name = "enabled")

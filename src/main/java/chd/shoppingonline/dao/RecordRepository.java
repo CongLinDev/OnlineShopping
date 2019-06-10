@@ -7,10 +7,12 @@ package chd.shoppingonline.dao;
  */
 
 import chd.shoppingonline.entity.Record;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
 public interface RecordRepository extends JpaRepository<Record, Long> {
+    Record findByRecordId(Long recordId)  throws EmptyResultDataAccessException, IllegalArgumentException;
 }

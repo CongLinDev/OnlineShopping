@@ -11,9 +11,11 @@ import chd.shoppingonline.dao.RecordDetailRepository;
 import chd.shoppingonline.entity.RecordDetail;
 import chd.shoppingonline.service.basic.RecordDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class RecordDetailServiceImpl implements RecordDetailService{
@@ -26,8 +28,13 @@ public class RecordDetailServiceImpl implements RecordDetailService{
     }
 
     @Override
-    public RecordDetail findRecordDetail(Long recordDetailId) {
-        return recordDetailRepository.findById(recordDetailId).orElse(null);
+    public RecordDetail findRecordDetail(Long recordDetailId)  throws EmptyResultDataAccessException, IllegalArgumentException{
+        return recordDetailRepository.findByRecordDetailId(recordDetailId);
+    }
+
+    @Override
+    public List<RecordDetail> findRecordDetailByCommodityId(Long commodityId) {
+        return recordDetailRepository.findAllByCommodityId(commodityId);
     }
 
     @Override
@@ -58,5 +65,21 @@ public class RecordDetailServiceImpl implements RecordDetailService{
         recordDetailRepository.updateRecordDetailState(recordDetailId,
                 RecordDetailState.DELIVERED.getShortValue(),
                 RecordDetailState.RETURNED.getShortValue());
+
+    }
+
+    @Override
+    public Integer countTradingVolume (Long commodityId){
+        return recordDetailRepository.countAllValidByCommodityId(commodityId);
+    }
+
+    public Integer countTradingVolume(List<RecordDetail> recordDetails){
+        if(recordDetails == null) return 0;
+        return recordDetails.parallelStream().map(RecordDetail::getTradingVolume).reduce(Integer::sum).orElse(0);
+    }
+
+    @Override
+    public List<RecordDetail> findRecordDetailsByCommodityId(Long commodityId)throws EmptyResultDataAccessException, IllegalArgumentException {
+        return recordDetailRepository.findAllByCommodityId(commodityId);
     }
 }

@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.FilterDef;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -24,6 +25,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
+@FilterDef(name = "onlySelled",
+        defaultCondition = "recordDetailState = '4'")
 public class RecordDetail {
 
     @Id

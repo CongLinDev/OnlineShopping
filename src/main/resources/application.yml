@@ -14,7 +14,7 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      # 每次运行该程序，没有表格会新建表格，表内有数据会清空 ddl-auto: create
+      # ddl-auto: create
       ddl-auto: update
     show-sql: true
     properties:

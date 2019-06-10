@@ -8,6 +8,8 @@ package chd.shoppingonline.service.basic;
 
 import chd.shoppingonline.entity.RecordDetail;
 
+import java.util.List;
+
 public interface RecordDetailService {
 
     /**
@@ -23,6 +25,13 @@ public interface RecordDetailService {
      * @return
      */
     RecordDetail findRecordDetail(Long recordDetailId);
+
+    /**
+     * 通过商品id查询细节
+     * @param commodityId
+     * @return
+     */
+    List<RecordDetail> findRecordDetailByCommodityId(Long commodityId);
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -55,4 +64,18 @@ public interface RecordDetailService {
      * @param recordDetailId
      */
     void returned(Long recordDetailId);
+
+    /**
+     * 统计交易量
+     * @param commodityId
+     * @return
+     */
+    Integer countTradingVolume (Long commodityId);
+
+
+    Integer countTradingVolume(List<RecordDetail> recordDetails);
+
+
+    List<RecordDetail> findRecordDetailsByCommodityId(Long commodityId);
+
 }

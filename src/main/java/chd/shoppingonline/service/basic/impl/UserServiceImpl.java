@@ -13,6 +13,7 @@ import chd.shoppingonline.entity.User;
 import chd.shoppingonline.service.basic.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 
 
@@ -79,24 +79,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User findUser(Long userId){
+    public User findUser(Long userId)  throws EmptyResultDataAccessException, IllegalArgumentException{
         log.debug("查询用户：ID=" + userId.toString());
-        Optional<User> optionalUser  = userRepository.findById(userId);
-        return optionalUser.orElse(null);
+        return userRepository.findByUserId(userId);
     }
 
     @Override
-    public User findUser(String username){
+    public User findUser(String username) throws EmptyResultDataAccessException, IllegalArgumentException {
         log.debug("查询用户：USERNAME=" + username);
-        Optional<User> optionalUser = userRepository.findByUsername(username);
-        return optionalUser.orElse(null);
+        return  userRepository.findByUsername(username);
     }
 
     //获取所有用户
     @Override
-    public Page<User> findAllUser(Pageable pageable){
-        Page<User> userPage = userRepository.findAll(pageable);
-        return userPage;
+    public Page<User> findAllUser(Pageable pageable) throws EmptyResultDataAccessException, IllegalArgumentException{
+        return userRepository.findAll(pageable);
     }
 
     @Override
