@@ -39,4 +39,9 @@ public interface RecordDetailRepository extends JpaRepository<RecordDetail, Long
     Integer countAllValidByCommodityId(Long commodityId);
 
     List<RecordDetail> findAllByCommodityId(Long commodityId) throws EmptyResultDataAccessException, IllegalArgumentException;
+
+    List<RecordDetail> findAllByRecordId(Long recordId) throws EmptyResultDataAccessException, IllegalArgumentException;
+
+//    @Query("select sum(rd.) from RecordDetail rd")
+////    Double countPriceByRecordId(Long recordId);
 }

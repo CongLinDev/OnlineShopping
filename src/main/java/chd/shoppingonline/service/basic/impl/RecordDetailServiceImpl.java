@@ -10,6 +10,7 @@ import chd.shoppingonline.common.state.RecordDetailState;
 import chd.shoppingonline.dao.RecordDetailRepository;
 import chd.shoppingonline.entity.RecordDetail;
 import chd.shoppingonline.service.basic.RecordDetailService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 public class RecordDetailServiceImpl implements RecordDetailService{
     @Autowired
@@ -28,13 +30,18 @@ public class RecordDetailServiceImpl implements RecordDetailService{
     }
 
     @Override
-    public RecordDetail findRecordDetail(Long recordDetailId)  throws EmptyResultDataAccessException, IllegalArgumentException{
+    public RecordDetail findRecordDetail(Long recordDetailId) throws EmptyResultDataAccessException, IllegalArgumentException{
         return recordDetailRepository.findByRecordDetailId(recordDetailId);
     }
 
     @Override
-    public List<RecordDetail> findRecordDetailByCommodityId(Long commodityId) {
+    public List<RecordDetail> findRecordDetailByCommodityId(Long commodityId) throws EmptyResultDataAccessException, IllegalArgumentException {
         return recordDetailRepository.findAllByCommodityId(commodityId);
+    }
+
+    @Override
+    public List<RecordDetail> findRecordDetailByRecordId(Long recordId) {
+        return recordDetailRepository.findAllByRecordId(recordId);
     }
 
     @Override
@@ -78,8 +85,4 @@ public class RecordDetailServiceImpl implements RecordDetailService{
         return recordDetails.parallelStream().map(RecordDetail::getTradingVolume).reduce(Integer::sum).orElse(0);
     }
 
-    @Override
-    public List<RecordDetail> findRecordDetailsByCommodityId(Long commodityId)throws EmptyResultDataAccessException, IllegalArgumentException {
-        return recordDetailRepository.findAllByCommodityId(commodityId);
-    }
 }

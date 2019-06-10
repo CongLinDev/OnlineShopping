@@ -1,4 +1,4 @@
-package chd.shoppingonline.service.impl;
+package chd.shoppingonline.service.basic.impl;
 /*
  * @ClassName RecordServiceImpl
  * @Author 从林
@@ -14,6 +14,7 @@ import chd.shoppingonline.service.basic.RecordDetailService;
 import chd.shoppingonline.service.basic.RecordService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class RecordServiceImpl implements RecordService {
         Record record = Record.builder().buyerId(buyerId).consigneeInformationId(consigneeInformationId).build();
         Record savedRecord = recordRepository.save(record);
 
+        //添加订单细节
         for(RecordDetail r : recordDetails){
             r = r.toBuilder()
                     .recordDetailId(null)
@@ -45,8 +47,9 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public Record findRecord(Long recordId){
+    public Record findRecord(Long recordId) throws EmptyResultDataAccessException, IllegalArgumentException {
         log.debug("查询订单：ID="+recordId.toString());
         return recordRepository.findByRecordId(recordId);
     }
+
 }

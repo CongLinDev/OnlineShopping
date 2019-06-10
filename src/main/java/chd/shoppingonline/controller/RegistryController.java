@@ -33,10 +33,16 @@ public class RegistryController {
     //String username,String password, String role
      */
         //User newUser = null;
-        User newUser = User.builder().username(user.getUsername()).password(user.getPassword()).enabled(true).balance(0.0).roles(UserRole.ROLE_BUYER.getShortValue()).userId(null).build();
+        User newUser = User.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .enabled(true)
+                .balance(0.0)
+                .roles(UserRole.ROLE_BUYER.getShortValue())
+                .userId(null).build();
         //user.toBuilder().enabled(true).balance(0.0).roles(UserRole.ROLE_BUYER.getShortValue()).userId(null).build();
         try {
-            user =  userService.addUser(newUser);//注册，可能会抛异常
+            newUser =  userService.addUser(newUser);//注册，可能会抛异常
         }catch(RuntimeException e){//最后细化异常
             throw new RuntimeException(e);
         }
@@ -50,13 +56,19 @@ public class RegistryController {
     //String username,String password, String role
      */
         //User newUser = null;
-        user.toBuilder().balance(0.0).enabled(true).roles(UserRole.ROLE_SELLER.getShortValue()).userId(null).build();
+        User newUser = User.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .enabled(true)
+                .balance(0.0)
+                .roles(UserRole.ROLE_SELLER.getShortValue())
+                .userId(null).build();
         try {
-            user =  userService.addUser(user);//注册，可能会抛异常
+            newUser =  userService.addUser(newUser);//注册，可能会抛异常
         }catch(RuntimeException e){//最后细化异常
             throw new RuntimeException(e);
         }
-        return ReturnEntity.<User>builder().code(true).content(user).build();
+        return ReturnEntity.<User>builder().code(true).content(newUser).build();
     }
 
 }

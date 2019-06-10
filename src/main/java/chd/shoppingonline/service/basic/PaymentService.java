@@ -7,6 +7,10 @@ package chd.shoppingonline.service.basic;
  */
 
 
+import chd.shoppingonline.entity.RecordDetail;
+
+import java.util.List;
+
 public interface PaymentService {
 
     /**
@@ -19,10 +23,25 @@ public interface PaymentService {
     Boolean pay(Long sourceUserId, Long destinationUserId, Double amount);
 
     /**
-     * 计算商品价格
+     * 计算单个商品价格
      * @param commodityId 商品ID
      * @param number 商品数量
      * @return
      */
     Double countPrice(Long commodityId, Integer number);
+
+    /**
+     * 通过订单id查询订单的金额
+     * 请确保订单已经存入数据库
+     * @param recordId
+     * @return
+     */
+    Double countPrice(Long recordId);
+
+    /**
+     * 通过订单细节计算订单的金额
+     * @param recordDetails
+     * @return
+     */
+    Double countPrice(List<RecordDetail> recordDetails);
 }

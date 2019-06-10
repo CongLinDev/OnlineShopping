@@ -91,7 +91,7 @@ public class CommodityController {
 
     @RequestMapping("/details")
     public ReturnEntity<List<RecordDetail>> getRecordDetailsOf(@RequestBody Long commodityId){
-        List<RecordDetail> recordDetails = recordDetailService.findRecordDetailsByCommodityId(commodityId);
+        List<RecordDetail> recordDetails = recordDetailService.findRecordDetailByCommodityId(commodityId);
         return ReturnEntity.<List<RecordDetail>>builder().code(true).content(recordDetails).build();
     }
 }

@@ -14,6 +14,8 @@ import java.util.List;
 public interface RecordService {
     /**
      * 生成订单
+     * 生成的同时将订单细节加入数据库
+     * 并将二者关联
      * @param buyerId 买家的ID
      * @param consigneeInformationId 买家收货地址ID
      * @param recordDetails 购买的商品记录细节
@@ -27,4 +29,6 @@ public interface RecordService {
      * @return
      */
     Record findRecord(Long recordId);
+
+
 }

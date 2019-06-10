@@ -33,6 +33,8 @@ public interface RecordDetailService {
      */
     List<RecordDetail> findRecordDetailByCommodityId(Long commodityId);
 
+    List<RecordDetail> findRecordDetailByRecordId(Long recordId);
+
     ///////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////
     /// 以下为订单细节状态改变函数
@@ -73,9 +75,10 @@ public interface RecordDetailService {
     Integer countTradingVolume (Long commodityId);
 
 
+    /**
+     * 计算商品交易量
+     * @param recordDetails
+     * @return
+     */
     Integer countTradingVolume(List<RecordDetail> recordDetails);
-
-
-    List<RecordDetail> findRecordDetailsByCommodityId(Long commodityId);
-
 }
