@@ -35,9 +35,9 @@ public class CommodityController {
 //                return Pair.of("commodityId",true);
             //case "销量":
             // new Pair<>("",true);
-            case "价格":
+            case "价格从低到高":
                 return Pair.of("price",true);
-            case "价格2":
+            case "价格从高到低":
                 return Pair.of("price",false);
             default:
                 return Pair.of("commodityId",true);
@@ -94,4 +94,6 @@ public class CommodityController {
         List<RecordDetail> recordDetails = recordDetailService.findRecordDetailByCommodityId(commodityId);
         return ReturnEntity.<List<RecordDetail>>builder().code(true).content(recordDetails).build();
     }
+
+
 }

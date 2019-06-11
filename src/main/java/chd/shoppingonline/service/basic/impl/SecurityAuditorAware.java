@@ -24,7 +24,7 @@ public class SecurityAuditorAware implements AuditorAware<Long> {
     @Override
     public Optional<Long> getCurrentAuditor(){
         User user = userService.findUser();//获得当前用户
-        log.debug("AuditorAware:" + user.toString());
+        log.info("AuditorAware:" + user.toString());
         return Optional.ofNullable(user.getUserId());
     }
 }

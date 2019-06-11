@@ -30,8 +30,8 @@ public class RecordServiceImpl implements RecordService {
     private RecordDetailService recordDetailService;
 
     @Override
-    public Record addRecord(Long buyerId, Long consigneeInformationId, List<RecordDetail> recordDetails){
-        Record record = Record.builder().buyerId(buyerId).consigneeInformationId(consigneeInformationId).build();
+    public Record addRecord(Long consigneeInformationId, List<RecordDetail> recordDetails){
+        Record record = Record.builder().consigneeInformationId(consigneeInformationId).build();
         Record savedRecord = recordRepository.save(record);
 
         //添加订单细节
@@ -48,7 +48,7 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public Record findRecord(Long recordId) throws EmptyResultDataAccessException, IllegalArgumentException {
-        log.debug("查询订单：ID="+recordId.toString());
+        log.info("查询订单：ID="+recordId.toString());
         return recordRepository.findByRecordId(recordId);
     }
 

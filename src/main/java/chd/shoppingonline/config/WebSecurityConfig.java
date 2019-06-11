@@ -6,6 +6,7 @@ package chd.shoppingonline.config;
  * @Description Security配置
  */
 
+import chd.shoppingonline.common.role.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -43,7 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/registry/**").permitAll() //指定了/和/index 不需要任何认证就可以访问
+                .antMatchers("/registry/**").permitAll()
+                .antMatchers("/seller/**").hasRole(UserRole.ROLE_SELLER.getTrimStringValue())
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -55,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .and()
             .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/index")
+                //.logoutSuccessUrl("/index")
                 .permitAll()
             .and()
                 .csrf().disable();

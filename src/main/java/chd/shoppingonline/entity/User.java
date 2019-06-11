@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
@@ -32,7 +31,7 @@ public class User implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
-    @Size(min = 4, max = 20, message = "用户名不得小于4个字符且超过20个字符")
+    //@Size(min = 4, max = 20, message = "用户名不得小于4个字符且超过20个字符")
     @Column(name = "username", unique = true, columnDefinition="varchar(10)")
     private String username;
 

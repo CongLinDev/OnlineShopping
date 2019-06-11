@@ -13,11 +13,10 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -32,6 +31,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
+@EntityListeners(AuditingEntityListener.class)
 public class Commodity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,21 +54,21 @@ public class Commodity {
     )
     private LocalDateTime time;//上架时间
 
-    @Size(max=20, min=4)
+    //@Size(max=20, min=4)
     @Column(name = "commodity_name", columnDefinition="varchar(10)")
     private String commodityName;//产品名
 
-    @NotEmpty
+    //@NotEmpty
     @Column(name = "price")
     @Min(0)
     private Double price;//单价
 
-    @NotEmpty
+    //@NotEmpty
     @Column(name = "stock")
     @Min(0)
     private Integer stock;//库存
 
-    @Column(name = "description", columnDefinition="char(100)")
+    @Column(name = "description", columnDefinition="varchar(100)")
     private String description;//产品描述
 
     @Column(name = "pictures", columnDefinition="varchar(60)")
@@ -87,6 +87,7 @@ public class Commodity {
 //    @JsonIgnore
 //    private List<RecordDetail> recordDetails;//销量
 
+    @Column(name = "volume")
     private Integer volume;
 
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

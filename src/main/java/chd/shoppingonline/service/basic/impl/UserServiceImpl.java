@@ -41,26 +41,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User addUser(User user){
-        log.debug("添加用户：" +  user.toString());
+        log.info("添加用户：" +  user.toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     @Override
     public User saveUser(User user) {
-        log.debug("保存用户：" + user.toString());
+        log.info("保存用户：" + user.toString());
         return userRepository.save(user);
     }
 
     @Override
     public void deleteUser(Long userId){
-        log.debug("删除用户：ID=" + userId.toString());
+        log.info("删除用户：ID=" + userId.toString());
         userRepository.deleteById(userId);
     }
 
     @Override
     public void deleteUser(String username){
-        log.debug("删除用户：USERNAME=" + username);
+        log.info("删除用户：USERNAME=" + username);
         userRepository.deleteByUsername(username);
     }
 
@@ -71,22 +71,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if(authentication == null)
             throw new NoSuchElementException();
 
-        System.out.println(authentication.getName());
-        UserDetails details = (UserDetails)(authentication.getPrincipal());
-        User user = User.builder().username(details.getUsername()).password(details.getPassword()).enabled(details.isEnabled()).build();
-        log.debug("查询当前用户：" + user.toString());
+        User user = ((SystemUser)(authentication.getPrincipal())).getUser();
+        //User user = User.builder().username(details.getUsername()).password(details.getPassword()).enabled(details.isEnabled()).build();
+        log.info("查询当前用户：" + user.toString());
         return user;
     }
 
     @Override
     public User findUser(Long userId)  throws EmptyResultDataAccessException, IllegalArgumentException{
-        log.debug("查询用户：ID=" + userId.toString());
+        log.info("查询用户：ID=" + userId.toString());
         return userRepository.findByUserId(userId);
     }
 
     @Override
     public User findUser(String username) throws EmptyResultDataAccessException, IllegalArgumentException {
-        log.debug("查询用户：USERNAME=" + username);
+        log.info("查询用户：USERNAME=" + username);
         return  userRepository.findByUsername(username);
     }
 
@@ -122,7 +121,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new UsernameNotFoundException(username + "not found");
         }
         System.out.println("验证USER信息：" + user.toString());
-        log.debug("验证USER信息：" + user.toString());
+        log.info("验证USER信息：" + user.toString());
         return SystemUser.builder()
                 .user(user)
                 .accountNonExpired(true)

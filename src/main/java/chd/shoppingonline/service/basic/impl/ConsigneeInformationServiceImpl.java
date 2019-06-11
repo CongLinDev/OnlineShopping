@@ -31,13 +31,13 @@ public class ConsigneeInformationServiceImpl implements ConsigneeInformationServ
 
     @Override
     public ConsigneeInformation addConsigneeInformation(ConsigneeInformation consigneeInformation){
-        log.debug("用户添加收货信息 "+ consigneeInformation.toString());
+        log.info("用户添加收货信息 "+ consigneeInformation.toString());
         return consigneeInformationRepository.save(consigneeInformation);
     }
 
     @Override
     public void deleteConsigneeInformation(Long consigneeInformationId){
-        log.debug("删除收货信息 ConsigneeInformationId="+ consigneeInformationId.toString());
+        log.info("删除收货信息 ConsigneeInformationId="+ consigneeInformationId.toString());
         consigneeInformationRepository.deleteById(consigneeInformationId);
     }
 }

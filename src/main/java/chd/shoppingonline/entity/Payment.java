@@ -9,6 +9,7 @@ package chd.shoppingonline.entity;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "payment", schema = "payment")
+@EntityListeners(AuditingEntityListener.class)
 public class Payment {
 
     @Id//主键

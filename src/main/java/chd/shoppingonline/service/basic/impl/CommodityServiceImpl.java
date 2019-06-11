@@ -32,19 +32,19 @@ public class CommodityServiceImpl implements CommodityService {
     private RecordDetailService recordDetailService;
 
     public Commodity addCommodity(Commodity commodity){
-        log.debug("添加商品：" + commodity.toString());
+        log.info("添加商品：" + commodity.toString());
         return commodityRepository.save(commodity);
     }
 
     @Override
     public void deleteCommodity(Long commodityId){
-        log.debug("删除商品：ID=" + commodityId.toString());
+        log.info("删除商品：ID=" + commodityId.toString());
         commodityRepository.deleteById(commodityId);
     }
 
     @Override
     public Commodity findCommodity(Long commodityId)  throws EmptyResultDataAccessException, IllegalArgumentException{
-        log.debug("查询商品：ID=" + commodityId.toString());
+        log.info("查询商品：ID=" + commodityId.toString());
         //Integer volume = recordDetailService.countTradingVolume(commodityId);
         return commodityRepository.findByCommodityId(commodityId);
     }
@@ -52,7 +52,7 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public Page<Commodity> findCommodity(String search, Pageable pageable)  throws EmptyResultDataAccessException, IllegalArgumentException{
-        log.debug("查询商品：SEARCH=" + search);
+        log.info("查询商品：SEARCH=" + search);
         return commodityRepository.findAllByCommodityName(search, pageable);
     }
 
@@ -65,7 +65,7 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public Page<Commodity> findAllCommodities(Pageable pageable) throws EmptyResultDataAccessException, IllegalArgumentException{
-        log.debug("查询所有商品");
+        log.info("查询所有商品");
         return commodityRepository.findAll(pageable);
     }
 
