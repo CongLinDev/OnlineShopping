@@ -46,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
             .authorizeRequests()
                 .antMatchers("/registry/**").permitAll()
                 .antMatchers("/seller/**").hasRole(UserRole.ROLE_SELLER.getTrimStringValue())
+                .antMatchers("/buyer/**", "/account/**").hasAnyRole(UserRole.ROLE_BUYER.getTrimStringValue(), UserRole.ROLE_SELLER.getTrimStringValue())
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

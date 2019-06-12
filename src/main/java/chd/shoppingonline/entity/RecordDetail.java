@@ -12,6 +12,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.FilterDef;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -27,6 +29,7 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @FilterDef(name = "onlySelled",
         defaultCondition = "recordDetailState = '4'")
+@EntityListeners(AuditingEntityListener.class)
 public class RecordDetail {
 
     @Id
@@ -60,4 +63,8 @@ public class RecordDetail {
 
     @Column(name = "comment_date")
     private LocalDateTime commentDate;
+
+    @CreatedDate
+    @Column(name = "create_time")
+    private LocalDateTime createTime;
 }

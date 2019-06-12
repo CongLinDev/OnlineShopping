@@ -13,6 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -42,6 +43,7 @@ public class User implements Serializable {
     @Column(name = "roles", columnDefinition = "smallint unsigned")
     private Short roles;
 
+    @Min(0)
     @Column(name="balance")
     private Double balance;
 

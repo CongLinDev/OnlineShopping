@@ -87,10 +87,15 @@ public class Commodity {
 //    @JsonIgnore
 //    private List<RecordDetail> recordDetails;//销量
 
-    @Column(name = "volume")
-    private Integer volume;
+    @Transient
+    private int volume;
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //@Transient
+//    public Integer getVolume(){
+//        return volume;
+//    }
+
+  //  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinColumn(name="commodity_id")
 //    @OrderBy("record_id DESC")//按record_id降序排列
 //    private List<Record> records;

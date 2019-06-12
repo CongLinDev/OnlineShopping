@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public User addUser(User user){
+    public User addUser(User user) throws EmptyResultDataAccessException, IllegalArgumentException {
         log.info("添加用户：" +  user.toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
@@ -109,6 +109,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void enableUser(Long userId){
         userRepository.updateUserState(userId, true);
+    }
+
+    @Override
+    public void recharge(Long userId, Double amount) throws EmptyResultDataAccessException, IllegalArgumentException {
+        if(amount < 0)
+            throw new IllegalArgumentException();
+        userRepository.rechargeBalance(userId, amount);
     }
 
 

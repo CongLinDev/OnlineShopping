@@ -40,9 +40,21 @@ public class RecordDetailServiceImpl implements RecordDetailService{
     }
 
     @Override
+    public List<RecordDetail> findCommentsByCommodityId(Long commodityId) {
+        return recordDetailRepository.findAllByCommodityIdAndRecordDetailState(commodityId, RecordDetailState.DELIVERED.getShortValue());
+    }
+
+    @Override
+    public List<RecordDetail> findRecordDetailsByCommodityIdAndState(Long commodityId, Short state) throws EmptyResultDataAccessException, IllegalArgumentException  {
+        return recordDetailRepository.findAllByCommodityIdAndState(commodityId, state);
+    }
+
+
+    @Override
     public List<RecordDetail> findRecordDetailByRecordId(Long recordId) {
         return recordDetailRepository.findAllByRecordId(recordId);
     }
+
 
     @Override
     public void paid(Long recordDetailId) {

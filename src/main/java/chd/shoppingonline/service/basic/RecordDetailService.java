@@ -33,7 +33,33 @@ public interface RecordDetailService {
      */
     List<RecordDetail> findRecordDetailByCommodityId(Long commodityId);
 
+    /**
+     * 查询某个商品下的所有评论
+     * @param commodityId
+     * @return
+     */
+    List<RecordDetail> findCommentsByCommodityId(Long commodityId);
+
+    /**
+     * 通过商品id查看指定状态订单细节
+     * @param commodityId
+     * @param state
+     * @return
+     */
+    List<RecordDetail> findRecordDetailsByCommodityIdAndState(Long commodityId, Short state);
+
+
+
+    /**
+     * 通过订单id查找订单细节
+     * @param recordId
+     * @return
+     */
     List<RecordDetail> findRecordDetailByRecordId(Long recordId);
+
+
+
+
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////

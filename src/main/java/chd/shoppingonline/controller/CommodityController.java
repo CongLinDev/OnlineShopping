@@ -89,11 +89,10 @@ public class CommodityController {
         return ReturnEntity.<List<Commodity>>builder().code(true).content(comodities).build();
     }
 
-    @RequestMapping("/details")
-    public ReturnEntity<List<RecordDetail>> getRecordDetailsOf(@RequestBody Long commodityId){
-        List<RecordDetail> recordDetails = recordDetailService.findRecordDetailByCommodityId(commodityId);
-        return ReturnEntity.<List<RecordDetail>>builder().code(true).content(recordDetails).build();
+    @RequestMapping("/id")
+    public ReturnEntity<Commodity> searchById(@RequestBody Map<String, Long> map) {
+        Commodity commodity = commodityService.findCommodity(map.get("commodityId"));
+        return ReturnEntity.<Commodity>builder().code(true).content(commodity).build();
     }
-
 
 }

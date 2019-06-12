@@ -8,8 +8,10 @@ package chd.shoppingonline.service.basic.impl;
 
 import chd.shoppingonline.common.state.RecordDetailState;
 import chd.shoppingonline.dao.RecordRepository;
+import chd.shoppingonline.entity.Commodity;
 import chd.shoppingonline.entity.Record;
 import chd.shoppingonline.entity.RecordDetail;
+import chd.shoppingonline.service.basic.CommodityService;
 import chd.shoppingonline.service.basic.RecordDetailService;
 import chd.shoppingonline.service.basic.RecordService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -29,6 +33,10 @@ public class RecordServiceImpl implements RecordService {
     @Autowired
     private RecordDetailService recordDetailService;
 
+    @Autowired
+    private CommodityService commodityService;
+
+
     @Override
     public Record addRecord(Long consigneeInformationId, List<RecordDetail> recordDetails){
         Record record = Record.builder().consigneeInformationId(consigneeInformationId).build();
@@ -36,6 +44,7 @@ public class RecordServiceImpl implements RecordService {
 
         //添加订单细节
         for(RecordDetail r : recordDetails){
+            commodityService.updateCommodityStock(r.getCommodityId(), r.getTradingVolume());
             r = r.toBuilder()
                     .recordDetailId(null)
                     .recordId(savedRecord.getRecordId())
@@ -51,5 +60,27 @@ public class RecordServiceImpl implements RecordService {
         log.info("查询订单：ID="+recordId.toString());
         return recordRepository.findByRecordId(recordId);
     }
+
+    @Override
+    public List<RecordDetail> findRecordDetailsBySellerId(Long userId) {
+        return commodityService.findCommodityByUserID(userId)
+                .parallelStream()
+                .map(Commodity::getCommodityId)
+                .map(recordDetailService::findRecordDetailByCommodityId)
+                .flatMap(Collection::parallelStream)
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<RecordDetail> findRecordDetailsByBuyerId(Long userId) {
+        return recordRepository.findAllByBuyerId(userId)
+                .parallelStream()
+                .map(Record::getRecordId)
+                .map(recordDetailService::findRecordDetailByRecordId)
+                .flatMap(Collection::parallelStream)
+                .collect(Collectors.toList());
+    }
+
 
 }

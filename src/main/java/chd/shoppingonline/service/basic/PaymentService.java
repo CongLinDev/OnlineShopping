@@ -6,7 +6,6 @@ package chd.shoppingonline.service.basic;
  * @Description 支付服务接口
  */
 
-
 import chd.shoppingonline.entity.RecordDetail;
 
 import java.util.List;
@@ -18,9 +17,8 @@ public interface PaymentService {
      * @param sourceUserId 支付人ID
      * @param destinationUserId 收款人ID
      * @param amount 交易金额
-     * @return
      */
-    Boolean pay(Long sourceUserId, Long destinationUserId, Double amount);
+    void pay(Long sourceUserId, Long destinationUserId, Double amount);
 
     /**
      * 计算单个商品价格
@@ -33,10 +31,10 @@ public interface PaymentService {
     /**
      * 通过订单id查询订单的金额
      * 请确保订单已经存入数据库
-     * @param recordId
+     * @param recordDetailId
      * @return
      */
-    Double countPrice(Long recordId);
+    Double countPrice(Long recordDetailId);
 
     /**
      * 通过订单细节计算订单的金额
@@ -44,4 +42,11 @@ public interface PaymentService {
      * @return
      */
     Double countPrice(List<RecordDetail> recordDetails);
+
+    /**
+     * 支付订单
+     * @param recordId
+     * @return
+     */
+    void payRecord(Long recordId);
 }

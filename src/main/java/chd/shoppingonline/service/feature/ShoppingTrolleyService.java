@@ -6,47 +6,46 @@ package chd.shoppingonline.service.feature;
  * @Description
  */
 
-import chd.shoppingonline.entity.Commodity;
-
-import java.util.Set;
-
 public interface ShoppingTrolleyService {
-
-    /**
-     * 将商品添加到购物车中
-     * @param userId
-     * @param commodityId
-     */
-    void addCommodity(Long userId, Long commodityId);
-
-    /**
-     * 将商品添加到购物车中
-     * @param userId
-     * @param commodity
-     */
-    void addCommodity(Long userId, Commodity commodity);
-
-    /**
-     * 移除商品
-     * @param userId
-     * @param commodityId
-     */
-    void removeCommodity(Long userId, Long commodityId);
-
-    /**
-     * 移除商品id
-     * @param userId
-     * @param commodity
-     */
-    void removeCommodity(Long userId, Commodity commodity);
-
-
-
-
-    /**
-     * 获取指定用户的购物车的所有商品
-     * @param userId
-     * @return
-     */
-    Set<Commodity> getAllCommodities(Long userId);
+//    /**
+//     * 将商品添加到购物车中
+//     * @param userId
+//     * @param commodityId
+//     */
+//    void addCommodity(Long userId, Long commodityId);
+//
+//    /**
+//     * 将商品添加到购物车中
+//     * @param userId
+//     * @param commodity
+//     */
+//    void addCommodity(Long userId, Commodity commodity);
+//
+//    /**
+//     * 将商品添加到购物车中
+//     * @param userId
+//     * @param commodities
+//     */
+//    void addCommodities(Long userId, List<Commodity> commodities);
+//
+//    /**
+//     * 移除商品id
+//     * @param userId
+//     * @param commodityId
+//     */
+//    void removeCommodity(Long userId, Long commodityId);
+//
+//    /**
+//     * 获取指定用户的购物车的所有商品的ID
+//     * @param userId
+//     * @return
+//     */
+//    Set<Long> getAllCommoditiyIds(Long userId);
+//
+//    /**
+//     * 获取指定用户的购物车的所有商品
+//     * @param userId
+//     * @return
+//     */
+//    Set<Commodity> getAllCommodities(Long userId);
 }

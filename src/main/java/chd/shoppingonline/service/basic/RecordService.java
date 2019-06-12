@@ -29,5 +29,17 @@ public interface RecordService {
      */
     Record findRecord(Long recordId);
 
+    /**
+     * 查看卖家的所有订单
+     * @param userId
+     * @return
+     */
+    List<RecordDetail> findRecordDetailsBySellerId(Long userId);
 
+    /**
+     * 查看买家的所有订单
+     * @param userId
+     * @return
+     */
+    List<RecordDetail> findRecordDetailsByBuyerId(Long userId);
 }

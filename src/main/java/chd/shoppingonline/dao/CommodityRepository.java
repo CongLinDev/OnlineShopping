@@ -17,6 +17,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface CommodityRepository extends JpaRepository<Commodity, Long>, JpaSpecificationExecutor<Commodity> {
     @Query("select c from Commodity c where c.commodityName like %?1%")
@@ -36,4 +38,6 @@ public interface CommodityRepository extends JpaRepository<Commodity, Long>, Jpa
     void updateStockByCommodityId(Long commodityId, Integer currentStock,Integer expectStock);
 
     Commodity findByCommodityId(Long commodityId) throws EmptyResultDataAccessException, IllegalArgumentException;
+
+    List<Commodity> findAllByCreatedBy(Long createBy) throws EmptyResultDataAccessException, IllegalArgumentException;
 }

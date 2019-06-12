@@ -6,6 +6,7 @@ package chd.shoppingonline.service.basic.impl;
  * @Description CommodityService实现
  */
 
+import chd.shoppingonline.common.state.CommodityState;
 import chd.shoppingonline.dao.CommodityRepository;
 import chd.shoppingonline.entity.Commodity;
 import chd.shoppingonline.entity.RecordDetail;
@@ -20,7 +21,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -32,6 +35,7 @@ public class CommodityServiceImpl implements CommodityService {
     private RecordDetailService recordDetailService;
 
     public Commodity addCommodity(Commodity commodity){
+        commodity.setCommodityState(CommodityState.ON_SELL.getShortValue());
         log.info("添加商品：" + commodity.toString());
         return commodityRepository.save(commodity);
     }
@@ -83,9 +87,6 @@ public class CommodityServiceImpl implements CommodityService {
         commodityRepository.updateStockByCommodityId(commodityId, commodity.getStock(), commodity.getStock() - decreaseStock);
     }
 
-
-
-
     @Override
     public List<Commodity> findCommodity(String key, String className, Boolean asc, String orderColumn, Integer page, Integer max) {
         var order = Sort.Direction.ASC;
@@ -109,18 +110,33 @@ public class CommodityServiceImpl implements CommodityService {
         return countRecordDetailsVolume(commodityRepository.findAllByCommodityType(className, PageRequest.of(page, max, new Sort(order, orderColumn))).getContent());
     }
 
+    @Override
+    public List<RecordDetail> findRecordDetailByUserID(Long userId, final Short state) throws EmptyResultDataAccessException, IllegalArgumentException{
+        return findCommodityByUserID(userId).parallelStream()
+                .map(Commodity::getCommodityId)
+                .map( id -> recordDetailService.findRecordDetailsByCommodityIdAndState(id, state))
+                .flatMap(Collection::parallelStream)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Commodity> findCommodityByUserID(Long userId) throws EmptyResultDataAccessException, IllegalArgumentException{
+        return commodityRepository.findAllByCreatedBy(userId);
+    }
+
+
     private List<Commodity> countRecordDetailsVolume(List<Commodity> commodities){
         if(commodities == null) return  commodities;
 //        List<Integer> v = commodities.parallelStream().map(Commodity::getCommodityId)
 ////                .map(recordDetailService::findRecordDetailByCommodityId)
 ////                .map(recordDetailService::countTradingVolume)
 ////                .collect(Collectors.toList());
-        for(int i = 0; i < commodities.size(); i++){
-            Commodity commodity = commodities.get(i);
+        for (Commodity commodity : commodities) {
             List<RecordDetail> recordDetails = recordDetailService.findRecordDetailByCommodityId(commodity.getCommodityId());
             commodity.setVolume(recordDetailService.countTradingVolume(recordDetails));
         }
         return commodities;
     }
+
 
 }

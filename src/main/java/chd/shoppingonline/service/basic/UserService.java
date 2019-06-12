@@ -58,6 +58,7 @@ public interface UserService {
      */
     User findUser(String username);
 
+
     /**
      * 获取所有用户
      * @param pageable 页信息
@@ -82,4 +83,11 @@ public interface UserService {
      * @param userId 用户ID
      */
     void enableUser(Long userId);
+
+    /**
+     * 充值
+     * @param userId
+     * @param amount
+     */
+    void recharge(Long userId, Double amount);
 }

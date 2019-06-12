@@ -7,6 +7,7 @@ package chd.shoppingonline.service.basic;
  */
 
 import chd.shoppingonline.entity.Commodity;
+import chd.shoppingonline.entity.RecordDetail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -109,5 +110,27 @@ public interface CommodityService {
      * @return
      */
     List<Commodity> findAllCommodities(String className, Boolean asc,  String orderColumn, Integer page, Integer max);
+
+    /**
+     * 查找用户的某个状态的订单细节
+     * @param userId
+     * @param state 状态
+     * @return
+     */
+    List<RecordDetail> findRecordDetailByUserID(Long userId, final Short state);
+
+    /**
+     * 通过商家的ID查找商品
+     * @param userId
+     * @return
+     */
+    List<Commodity> findCommodityByUserID(Long userId);
+//
+//    /**
+//     * 通过商品找到商家ID
+//     * @param commodityId
+//     * @return
+//     */
+//    Long findUserByCommodityId(Long commodityId);
 
 }
