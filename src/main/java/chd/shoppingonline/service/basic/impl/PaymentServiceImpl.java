@@ -75,17 +75,5 @@ public class PaymentServiceImpl implements PaymentService {
         return price;
     }
 
-    @Override
-    @Transactional
-    public void payRecord(Long recordId) {
-        List<RecordDetail> recordDetails = recordDetailService.findRecordDetailByRecordId(recordId);
 
-        for(RecordDetail recordDetail : recordDetails){
-            Double price = countPrice(recordDetail.getRecordDetailId());
-            Long sellerId = commodityService.findCommodity(recordDetail.getCommodityId()).getCreatedBy();
-            pay(userService.findUser().getUserId(), sellerId, price);
-            recordDetailService.paid(recordDetail.getRecordDetailId());
-        }
-
-    }
 }

@@ -40,10 +40,15 @@ public class CommodityServiceImpl implements CommodityService {
         return commodityRepository.save(commodity);
     }
 
+
     @Override
-    public void deleteCommodity(Long commodityId){
+    public void deleteCommodity(Long commodityId, Long userId){
         log.info("删除商品：ID=" + commodityId.toString());
-        commodityRepository.deleteById(commodityId);
+        commodityRepository.updateStateByCommodityId(commodityId, userId, CommodityState.OFF_SELL.getShortValue());
+    }
+    @Override
+    public Commodity updateCommodity(Commodity commodity) {
+        return commodityRepository.save(commodity);
     }
 
     @Override
@@ -80,7 +85,7 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public void updateCommodityStock(Long commodityId ,Integer decreaseStock)  throws EmptyResultDataAccessException, IllegalArgumentException{
+    public void updateCommodityStock(Long commodityId ,Integer decreaseStock) throws EmptyResultDataAccessException, IllegalArgumentException{
         Commodity commodity = commodityRepository.findByCommodityId(commodityId);
         if(commodity == null || commodity.getStock() < decreaseStock)
             throw new IllegalArgumentException();
@@ -119,6 +124,7 @@ public class CommodityServiceImpl implements CommodityService {
                 .collect(Collectors.toList());
     }
 
+
     @Override
     public List<Commodity> findCommodityByUserID(Long userId) throws EmptyResultDataAccessException, IllegalArgumentException{
         return commodityRepository.findAllByCreatedBy(userId);
@@ -137,6 +143,4 @@ public class CommodityServiceImpl implements CommodityService {
         }
         return commodities;
     }
-
-
 }

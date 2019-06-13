@@ -8,6 +8,8 @@ package chd.shoppingonline.dao;
 
 import chd.shoppingonline.entity.RecordDetail;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -30,8 +32,8 @@ public interface RecordDetailRepository extends JpaRepository<RecordDetail, Long
 
     @Modifying
     @Transactional
-    @Query("update RecordDetail r set r.comment = ?2, r.star = ?3, r.commentDate =?4 where  r.recordDetailId = ?1")
-    void updateRecordDetailCommentAndStar(Long recordDetailId, String comment, Short star, LocalDateTime time);
+    @Query("update RecordDetail r set r.comment = ?2 , r.commentDate =?3 where  r.recordDetailId = ?1")
+    void updateRecordDetailComment(Long recordDetailId, String comment, LocalDateTime time);
 
     RecordDetail findByRecordDetailId(Long recordDetailId)  throws EmptyResultDataAccessException, IllegalArgumentException;
 
@@ -45,7 +47,8 @@ public interface RecordDetailRepository extends JpaRepository<RecordDetail, Long
     List<RecordDetail> findAllByRecordId(Long recordId) throws EmptyResultDataAccessException, IllegalArgumentException;
 
     @Query("select rd from RecordDetail rd where rd.commodityId = ?1 and rd.recordDetailState = ?2")
-    List<RecordDetail> findAllByCommodityIdAndState(Long commodityId, Short state)throws EmptyResultDataAccessException, IllegalArgumentException;
+    Page<RecordDetail> findAllByCommodityIdAndState(Long commodityId, Short state, Pageable pageable)throws EmptyResultDataAccessException, IllegalArgumentException;
+
 
 
 //    @Query("select sum(rd.) from RecordDetail rd")

@@ -11,12 +11,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.FilterDef;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
@@ -27,8 +25,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@FilterDef(name = "onlySelled",
-        defaultCondition = "recordDetailState = '4'")
+//@FilterDef(name = "onlySelled",
+//        defaultCondition = "recordDetailState = '4'")
 @EntityListeners(AuditingEntityListener.class)
 public class RecordDetail {
 
@@ -50,11 +48,6 @@ public class RecordDetail {
     @Column(name = "express_id", columnDefinition = "varchar(13)")
     private String expressId;//快递单号
 
-    @Column(name = "star", columnDefinition = "smallint")
-    @Min(1)
-    @Max(5)
-    private Short star;//评级
-
     @Column(name = "recordDetailState", columnDefinition = "smallint")
     private Short recordDetailState;//状态
 
@@ -62,9 +55,9 @@ public class RecordDetail {
     private String comment;//评论
 
     @Column(name = "comment_date")
-    private LocalDateTime commentDate;
+    private LocalDateTime commentDate;//评论日期
 
     @CreatedDate
     @Column(name = "create_time")
-    private LocalDateTime createTime;
+    private LocalDateTime createTime;//订单细节创建日期
 }

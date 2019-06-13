@@ -43,10 +43,5 @@ public interface PaymentService {
      */
     Double countPrice(List<RecordDetail> recordDetails);
 
-    /**
-     * 支付订单
-     * @param recordId
-     * @return
-     */
-    void payRecord(Long recordId);
+
 }

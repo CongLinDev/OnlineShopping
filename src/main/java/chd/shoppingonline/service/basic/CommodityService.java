@@ -24,9 +24,17 @@ public interface CommodityService {
     /**
      * 删除商品
      * @param commodityId 商品ID
+     * @param userId 商家ID
      * @return
      */
-    void deleteCommodity(Long commodityId);
+    void deleteCommodity(Long commodityId, Long userId);
+
+    /**
+     * 更新商品信息
+     * @param commodity
+     * @return
+     */
+    Commodity updateCommodity(Commodity commodity);
 
     /**
      * 查询商品
@@ -73,9 +81,7 @@ public interface CommodityService {
      * @param  commodityId
      * @param decreaseStock 库存减少量
      */
-    void updateCommodityStock(Long commodityId, Integer decreaseStock);
-
-
+    void updateCommodityStock(Long commodityId, Integer decreaseStock) throws  IllegalArgumentException;
 
     /**
      * 在对应商品类中根据关键字查找商品
@@ -119,18 +125,12 @@ public interface CommodityService {
      */
     List<RecordDetail> findRecordDetailByUserID(Long userId, final Short state);
 
+
     /**
      * 通过商家的ID查找商品
      * @param userId
      * @return
      */
     List<Commodity> findCommodityByUserID(Long userId);
-//
-//    /**
-//     * 通过商品找到商家ID
-//     * @param commodityId
-//     * @return
-//     */
-//    Long findUserByCommodityId(Long commodityId);
 
 }

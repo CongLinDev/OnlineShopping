@@ -44,7 +44,12 @@ public class RecordServiceImpl implements RecordService {
 
         //添加订单细节
         for(RecordDetail r : recordDetails){
-            commodityService.updateCommodityStock(r.getCommodityId(), r.getTradingVolume());
+            try{
+                commodityService.updateCommodityStock(r.getCommodityId(), r.getTradingVolume());
+            }catch (IllegalArgumentException e){
+                log.error(r.getCommodityId() + "库存不足");
+                continue;
+            }
             r = r.toBuilder()
                     .recordDetailId(null)
                     .recordId(savedRecord.getRecordId())
@@ -79,6 +84,28 @@ public class RecordServiceImpl implements RecordService {
                 .map(Record::getRecordId)
                 .map(recordDetailService::findRecordDetailByRecordId)
                 .flatMap(Collection::parallelStream)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RecordDetail> findUndeliverRecordDetailsByBuyerId(Long userId) {
+        return recordRepository.findAllByBuyerId(userId)
+                .parallelStream()
+                .map(Record::getRecordId)
+                .map(recordDetailService::findRecordDetailByRecordId)
+                .flatMap(Collection::parallelStream)
+                .filter( rd -> rd.getRecordDetailState() < RecordDetailState.DELIVERED.getShortValue())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RecordDetail> findRecordDetailsByBuyerIdAndState(Long userId, Short state) {
+        return recordRepository.findAllByBuyerId(userId)
+                .parallelStream()
+                .map(Record::getRecordId)
+                .map(recordDetailService::findRecordDetailByRecordId)
+                .flatMap(Collection::parallelStream)
+                .filter( rd -> rd.getRecordDetailState() == state)
                 .collect(Collectors.toList());
     }
 

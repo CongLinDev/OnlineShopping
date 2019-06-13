@@ -7,6 +7,7 @@ package chd.shoppingonline.service.basic;
  */
 
 import chd.shoppingonline.entity.RecordDetail;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -33,6 +34,8 @@ public interface RecordDetailService {
      */
     List<RecordDetail> findRecordDetailByCommodityId(Long commodityId);
 
+
+
     /**
      * 查询某个商品下的所有评论
      * @param commodityId
@@ -40,14 +43,24 @@ public interface RecordDetailService {
      */
     List<RecordDetail> findCommentsByCommodityId(Long commodityId);
 
+
     /**
-     * 通过商品id查看指定状态订单细节
+     * 查询某个状态的订单细节
      * @param commodityId
      * @param state
      * @return
      */
     List<RecordDetail> findRecordDetailsByCommodityIdAndState(Long commodityId, Short state);
 
+    /**
+     * 通过商品id查询细节
+     * @param commodityId
+     * @param state 状态
+     * @param page 页号
+     * @param max 页内最大数
+     * @return
+     */
+    Page<RecordDetail> findRecordDetailByCommodityIdAndState(Long commodityId, Short state, int page, int max);
 
 
     /**
@@ -58,40 +71,27 @@ public interface RecordDetailService {
     List<RecordDetail> findRecordDetailByRecordId(Long recordId);
 
 
-
-
-
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    /// 以下为订单细节状态改变函数
-
     /**
-     * 更新为 已支付 状态
+     * 更新快递单号
      * @param recordDetailId
+     * @param expressId
      */
-    void paid(Long recordDetailId);
+    void updateRecordDetailExpressId(Long recordDetailId, String expressId);
 
     /**
-     * 更新为 订单发货 状态
-     * @param recordDetailId 订单细节id
-     * @param expressId 快递单号
-     */
-    void shipment(Long recordDetailId, String expressId);
-
-    /**
-     * 更新为 买家收货 状态
-     * 买家收货并作出评论和等级评定
+     * 更新订单状态
      * @param recordDetailId
-     * @param star
+     * @param currentState 当前状态
+     * @param expectState 预期状态
+     */
+    void updateRecordDetailState(Long recordDetailId, Short currentState, Short expectState);
+
+    /**
+     * 更新订单评论
+     * @param recordDetailId
      * @param comment
      */
-    void deliver(Long recordDetailId, Short star, String comment);
-
-    /**
-     * 更新为 买家退货 状态
-     * @param recordDetailId
-     */
-    void returned(Long recordDetailId);
+    void updateRecordDetailComment(Long recordDetailId, String comment);
 
     /**
      * 统计交易量

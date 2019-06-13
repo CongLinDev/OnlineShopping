@@ -21,15 +21,16 @@ import java.util.List;
 
 @Repository
 public interface CommodityRepository extends JpaRepository<Commodity, Long>, JpaSpecificationExecutor<Commodity> {
-    @Query("select c from Commodity c where c.commodityName like %?1%")
+    @Query("select c from Commodity c where c.commodityType = 0 and c.commodityName like %?1%")
     Page<Commodity> findAllByCommodityName(String commodityName, Pageable pageable)throws EmptyResultDataAccessException, IllegalArgumentException;
 
-    @Query("select c from Commodity c where c.commodityType = ?2 and c.commodityName like %?1%")
+    @Query("select c from Commodity c where c.commodityType = 0 and c.commodityType = ?2 and c.commodityName like %?1%")
     Page<Commodity> findAllByCommodityNameAndCommodityType(String commodityName, String commodityType, Pageable pageable) throws EmptyResultDataAccessException, IllegalArgumentException;
 
-    @Query("select c from Commodity c where c.commodityType = ?1")
+    @Query("select c from Commodity c where c.commodityType = 0 and c.commodityType = ?1")
     Page<Commodity> findAllByCommodityType(String commodityType, Pageable pageable) throws EmptyResultDataAccessException, IllegalArgumentException;
 
+    @Query("select c from  Commodity c where c.commodityType = 0")
     Page<Commodity> findAll(Pageable pageable) throws EmptyResultDataAccessException, IllegalArgumentException;
 
     @Transactional
@@ -39,5 +40,12 @@ public interface CommodityRepository extends JpaRepository<Commodity, Long>, Jpa
 
     Commodity findByCommodityId(Long commodityId) throws EmptyResultDataAccessException, IllegalArgumentException;
 
+    @Query("select c from Commodity c where c.commodityType = 0 and c.createdBy = ?1")
     List<Commodity> findAllByCreatedBy(Long createBy) throws EmptyResultDataAccessException, IllegalArgumentException;
+
+    @Modifying
+    @Query("update Commodity c set c.commodityType = ?3 where c.commodityId = ?1 and c.createdBy = ?2")
+    @Transactional
+    void updateStateByCommodityId(Long commodityId, Long createBy, Short state);
+
 }

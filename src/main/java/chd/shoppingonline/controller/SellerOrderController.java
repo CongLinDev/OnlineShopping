@@ -1,6 +1,6 @@
 package chd.shoppingonline.controller;
 /*
- * @ClassName SellerController
+ * @ClassName SellerOrderController
  * @Author 从林
  * @Date 2019-06-11 19:00
  * @Description
@@ -9,6 +9,7 @@ package chd.shoppingonline.controller;
 import chd.shoppingonline.common.state.RecordDetailState;
 import chd.shoppingonline.entity.*;
 import chd.shoppingonline.service.basic.*;
+import chd.shoppingonline.service.feature.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-public class SellerController {
+public class SellerOrderController {
     @Autowired
     private RecordDetailService recordDetailService;
     @Autowired
@@ -30,30 +32,8 @@ public class SellerController {
     private RecordService recordService;
     @Autowired
     private ConsigneeInformationService consigneeInformationService;
-
-    @RequestMapping("/seller/commodity/add")
-    public ReturnEntity<Commodity> addCommodity(@RequestBody Commodity commodity){
-
-        commodity = commodityService.addCommodity(commodity);
-        return ReturnEntity.<Commodity>builder().code(true).content(commodity).build();
-    }
-
-    @RequestMapping("/seller/commodity/delete")
-    public ReturnEntity<Commodity> deleteCommodity(@RequestBody Commodity commodity){
-        commodityService.deleteCommodity(commodity.getCommodityId());
-        return ReturnEntity.<Commodity>builder().code(true).content(commodity).build();
-    }
-
-    @RequestMapping("/seller/commodity/get")
-    public ReturnEntity<List<Commodity>> deleteCommodity(){
-        List<Commodity> commodities = commodityService.findCommodityByUserID(userService.findUser().getUserId());
-        return ReturnEntity.<List<Commodity>>builder().code(true).content(commodities).build();
-    }
-
-    @RequestMapping("/seller/order/deliver")
-    public void setOrderItemDelivered(@RequestBody  RecordDetail recordDetail){
-        recordDetailService.shipment(recordDetail.getRecordDetailId(),recordDetail.getExpressId());
-    }
+    @Autowired
+    private BuyerService buyerService;
 
 /*
     @RequestMapping("/seller/order/all")
@@ -241,4 +221,19 @@ public class SellerController {
     }
 
 
+    @RequestMapping("/seller/order/deliver")
+    public void setOrderItemDelivered(@RequestBody RecordDetail recordDetail){
+        recordDetailService.updateRecordDetailExpressId(recordDetail.getRecordDetailId(),recordDetail.getExpressId());
+        recordDetailService.updateRecordDetailState(recordDetail.getRecordDetailId(), RecordDetailState.PREPARE_SHIPMENT.getShortValue(),RecordDetailState.SHIPMENT.getShortValue());
+    }
+
+    @RequestMapping("/sell/order/return")
+    public void acceptReturnRequest(@RequestBody Map<String, Long> map){
+        buyerService.permitReturn(map.get("recordDetailId"));
+    }
+
+    @RequestMapping("/sell/order/returned/refuse")
+    public void refuseReturnRequest(@RequestBody Map<String, Long> map){
+        buyerService.rejectReturn(map.get("recordDetailId"));
+    }
 }

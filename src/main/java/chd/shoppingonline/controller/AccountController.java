@@ -7,9 +7,9 @@ package chd.shoppingonline.controller;
  */
 
 import chd.shoppingonline.common.role.UserRole;
+import chd.shoppingonline.controller.exception.IllegalParamExcpetion;
 import chd.shoppingonline.entity.ReturnEntity;
 import chd.shoppingonline.entity.User;
-import chd.shoppingonline.service.basic.CommodityService;
 import chd.shoppingonline.service.basic.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,13 +20,8 @@ import java.util.Map;
 
 @RestController
 public class AccountController {
-
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private CommodityService commodityService;
-
 
     @RequestMapping("/registry/buyer")
     ReturnEntity<User> registryBuyer(@RequestBody  User user) {
@@ -65,15 +60,26 @@ public class AccountController {
     @RequestMapping({"/index","/account"})
     public ReturnEntity<User> account(){
         User user = userService.findUser(userService.findUser().getUserId());
-        return ReturnEntity.<User>builder().code(true).content(userService.findUser()).build();
+        return ReturnEntity.<User>builder().code(true).content(user).build();
     }
 
     @RequestMapping("/account/amount/add")
     public Double addBalance(@RequestBody Map<String, Double> map){
-        User user = userService.findUser();
-        Double amount = map.get("amount");
-        userService.recharge(user.getUserId() ,amount);
-        user.setBalance(user.getBalance() + amount);
-        return user.getBalance();
+        Long userId = userService.findUser().getUserId();
+        userService.recharge(userId,map.get("amount"));
+        return userService.findUser(userId).getBalance();
     }
+
+    @RequestMapping("/account/password/update")
+    public void updatePassword(@RequestBody Map<String, String> map){
+        String password = map.get("password");
+        if(password == null) throw new IllegalParamExcpetion();
+        userService.updatePassword(userService.findUser().getUserId(),password);
+    }
+
+    @RequestMapping("/logout_success")
+    public String logout(){
+        return "屈佳林";
+    }
+
 }

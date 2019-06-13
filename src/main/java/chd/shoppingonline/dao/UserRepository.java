@@ -29,12 +29,17 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void updateBalanceByUserId(@Param("userId")Long userId, @Param("balance") double balance);
 
     @Modifying
-    @Query(value = "update User user set user.enabled = :enabled where user.id = :userId")
+    @Query(value = "update User user set user.enabled = ?2 where user.id = ?1")
     @Transactional
-    void updateUserState(@Param("userId")Long userId, @Param("enabled") Boolean enabled);
+    void updateUserState(Long userId, Boolean enabled);
 
     @Modifying
     @Query("update User user set  user.balance = user.balance + ?2 where user.userId = ?1")
     @Transactional
     void rechargeBalance(Long userId, Double amount);
+
+    @Modifying
+    @Query("update User user set  user.password = ?2 where user.userId = ?1")
+    @Transactional
+    void updatePassword(Long userId, String password);
 }

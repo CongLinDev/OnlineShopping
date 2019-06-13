@@ -53,6 +53,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public void updatePassword(Long userId, String password) {
+        log.info("用户ID=" + userId + "修改密码：" + password);
+        userRepository.updatePassword(userId, passwordEncoder.encode(password));
+    }
+
+    @Override
     public void deleteUser(Long userId){
         log.info("删除用户：ID=" + userId.toString());
         userRepository.deleteById(userId);

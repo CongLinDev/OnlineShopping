@@ -68,10 +68,10 @@ public class Commodity {
     @Min(0)
     private Integer stock;//库存
 
-    @Column(name = "description", columnDefinition="varchar(100)")
+    @Column(name = "description", columnDefinition="varchar(512)")
     private String description;//产品描述
 
-    @Column(name = "pictures", columnDefinition="varchar(60)")
+    @Column(name = "pictures", columnDefinition="varchar(255)")
     private String pictures;//产品图片，将图片上传至网络图床，保存url，节省服务端存储空间
 
     @Column(name="commodity_state", columnDefinition = "smallint")
@@ -80,7 +80,8 @@ public class Commodity {
     @Column(name="commodity_type", columnDefinition = "varchar(10)")
     private String commodityType;
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+ //   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinColumn(name="commodity_id")
 //    @LazyCollection(LazyCollectionOption.EXTRA)
 //    @Filter(name = "onlySelled")

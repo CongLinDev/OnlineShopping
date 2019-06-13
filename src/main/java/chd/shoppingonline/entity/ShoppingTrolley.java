@@ -8,10 +8,13 @@ package chd.shoppingonline.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class ShoppingTrolley {
+@NoArgsConstructor
+public class ShoppingTrolley{
+
     private Long commodityId;//商品ID
 
     private Integer number;//数量

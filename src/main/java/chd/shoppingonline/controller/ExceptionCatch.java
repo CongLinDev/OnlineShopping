@@ -6,8 +6,10 @@ package chd.shoppingonline.controller;
  * @Description
  */
 
+import chd.shoppingonline.controller.exception.IllegalParamExcpetion;
 import chd.shoppingonline.entity.ReturnEntity;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,8 +23,8 @@ public class ExceptionCatch {
     @ExceptionHandler(ClassCastException.class)
     public ReturnEntity<String> requestParseException(ClassCastException e) {
         //日志记录等
-
-        return ReturnEntity.<String>builder().code(false).message("invalid params in request").build();
+        //"invalid params in request"
+        return ReturnEntity.<String>builder().code(false).message(e.getMessage()).build();
     }
 
     @ResponseBody
@@ -44,8 +46,18 @@ public class ExceptionCatch {
     @ExceptionHandler(TransactionSystemException.class)
     public ReturnEntity<String> sqlParseException(TransactionSystemException e) {
         //实体完整性异常等
-        return ReturnEntity.<String>builder().code(false).message(e.getMessage()).build();
+        return ReturnEntity.<String>builder().code(false).message("TransactionSystemException").build();
     }
 
+    @ResponseBody
+    @ExceptionHandler(IllegalParamExcpetion.class)
+    public ReturnEntity<String> sqlParseException(IllegalParamExcpetion e) {
+        return ReturnEntity.<String>builder().code(false).message("请求参数错误，请检查参数").build();
+    }
 
+    @ResponseBody
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    public ReturnEntity<String> sqlParseException(EmptyResultDataAccessException e) {
+        return ReturnEntity.<String>builder().code(false).message("查询结果为空，数据库内部数据出错").build();
+    }
 }

@@ -26,6 +26,13 @@ public interface UserService {
     User saveUser(User user);
 
     /**
+     * 修改密码
+     * @param userId
+     * @param password
+     */
+    void updatePassword(Long userId, String password);
+
+    /**
      * 删除用户（通过用户ID）
      * @param userId 用户ID
      */

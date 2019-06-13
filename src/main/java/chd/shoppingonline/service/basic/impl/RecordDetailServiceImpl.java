@@ -13,6 +13,10 @@ import chd.shoppingonline.service.basic.RecordDetailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,52 +44,42 @@ public class RecordDetailServiceImpl implements RecordDetailService{
     }
 
     @Override
+    public List<RecordDetail> findRecordDetailsByCommodityIdAndState(Long commodityId, Short state) throws EmptyResultDataAccessException, IllegalArgumentException  {
+        return recordDetailRepository.findAllByCommodityIdAndRecordDetailState(commodityId, state);
+    }
+
+    @Override
     public List<RecordDetail> findCommentsByCommodityId(Long commodityId) {
         return recordDetailRepository.findAllByCommodityIdAndRecordDetailState(commodityId, RecordDetailState.DELIVERED.getShortValue());
     }
 
-    @Override
-    public List<RecordDetail> findRecordDetailsByCommodityIdAndState(Long commodityId, Short state) throws EmptyResultDataAccessException, IllegalArgumentException  {
-        return recordDetailRepository.findAllByCommodityIdAndState(commodityId, state);
-    }
 
+    @Override
+    public Page<RecordDetail> findRecordDetailByCommodityIdAndState(Long commodityId, Short state, int page, int max) {
+        Pageable pageable = PageRequest.of(page, max, new Sort(Sort.Direction.DESC, "recordDetailId"));
+        return recordDetailRepository.findAllByCommodityIdAndState(commodityId, state, pageable);
+    }
 
     @Override
     public List<RecordDetail> findRecordDetailByRecordId(Long recordId) {
         return recordDetailRepository.findAllByRecordId(recordId);
     }
 
-
     @Override
-    public void paid(Long recordDetailId) {
-        recordDetailRepository.updateRecordDetailState(recordDetailId,
-                RecordDetailState.ARREARAGE.getShortValue(),
-                RecordDetailState.PREPARE_SHIPMENT.getShortValue());
-    }
-
-    @Override
-    public void shipment(Long recordDetailId, String expressId) {
-        recordDetailRepository.updateRecordDetailState(recordDetailId,
-                RecordDetailState.PREPARE_SHIPMENT.getShortValue(),
-                RecordDetailState.SHIPMENT.getShortValue());
+    public void updateRecordDetailExpressId(Long recordDetailId, String expressId) {
         recordDetailRepository.updateRecordDetailExpressId(recordDetailId, expressId);
     }
 
     @Override
-    public void deliver(Long recordDetailId, Short star, String comment) {
-        recordDetailRepository.updateRecordDetailState(recordDetailId,
-                RecordDetailState.SHIPMENT.getShortValue(),
-                RecordDetailState.DELIVERED.getShortValue());
-        recordDetailRepository.updateRecordDetailCommentAndStar(recordDetailId, comment, star, LocalDateTime.now());
+    public void updateRecordDetailState(Long recordDetail, Short currentState, Short expectState) {
+        recordDetailRepository.updateRecordDetailState(recordDetail, currentState, expectState);
     }
 
     @Override
-    public void returned(Long recordDetailId) {
-        recordDetailRepository.updateRecordDetailState(recordDetailId,
-                RecordDetailState.DELIVERED.getShortValue(),
-                RecordDetailState.RETURNED.getShortValue());
-
+    public void updateRecordDetailComment(Long recordDetailId, String comment) {
+        recordDetailRepository.updateRecordDetailComment(recordDetailId, comment, LocalDateTime.now());
     }
+
 
     @Override
     public Integer countTradingVolume (Long commodityId){
@@ -94,7 +88,11 @@ public class RecordDetailServiceImpl implements RecordDetailService{
 
     public Integer countTradingVolume(List<RecordDetail> recordDetails){
         if(recordDetails == null) return 0;
-        return recordDetails.parallelStream().map(RecordDetail::getTradingVolume).reduce(Integer::sum).orElse(0);
+        return recordDetails.parallelStream()
+                .filter(rd->rd.getRecordDetailState() == RecordDetailState.DELIVERED.getShortValue())
+                .map(RecordDetail::getTradingVolume)
+                .reduce(Integer::sum)
+                .orElse(0);
     }
 
 }

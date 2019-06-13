@@ -42,4 +42,19 @@ public interface RecordService {
      * @return
      */
     List<RecordDetail> findRecordDetailsByBuyerId(Long userId);
+
+    /**
+     * 查看买家未收货订单细节
+     * @param userId
+     * @return
+     */
+    List<RecordDetail> findUndeliverRecordDetailsByBuyerId(Long userId);
+
+    /**
+     * 查看买家某个状态的订单细节
+     * @param userId
+     * @param state
+     * @return
+     */
+    List<RecordDetail> findRecordDetailsByBuyerIdAndState(Long userId, Short state);
 }
