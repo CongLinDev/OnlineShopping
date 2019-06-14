@@ -19,7 +19,9 @@ import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "record_detail", schema = "record_detail")
+@Table(name = "record_detail", schema = "record_detail",
+        indexes = {@Index(name = "own_record_id", columnList = "own_record_id"),
+        @Index(name = "commodity_id", columnList = "commodity_id")})
 @Data
 @DynamicUpdate
 @AllArgsConstructor

@@ -20,12 +20,10 @@ import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "commodity", schema = "commodity"
-//        indexes = {
-//                @Index(name = "commodityname", columnList = "commodityname"),
-//                @Index(name= "created_by", columnList = "created_by"),
-//                @Index(name = "commodity_id", columnList = "commodity_id")}
-                )
+@Table(name = "commodity", schema = "commodity",
+        indexes = {
+        @Index(name = "commodityName", columnList = "commodity_name")
+        })
 @Data
 @DynamicUpdate
 @AllArgsConstructor

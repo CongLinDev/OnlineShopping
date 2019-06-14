@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/registry/**", "/logout_success").permitAll()
+                .antMatchers("/registry/**", "/logout_success", "/commodity/**").permitAll()
                 .antMatchers("/seller/**").hasRole(UserRole.ROLE_SELLER.getTrimStringValue())
                 .antMatchers("/buyer/**", "/account/**").hasAnyRole(UserRole.ROLE_BUYER.getTrimStringValue(), UserRole.ROLE_SELLER.getTrimStringValue())
                 .anyRequest().authenticated()

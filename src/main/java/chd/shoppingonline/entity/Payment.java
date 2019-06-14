@@ -17,7 +17,11 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @Entity
-@Table(name = "payment", schema = "payment")
+@Table(name = "payment", schema = "payment",
+        indexes = {
+                @Index(name = "receiver", columnList = "receiver"),
+                @Index(name = "payer", columnList = "payer")
+        })
 @EntityListeners(AuditingEntityListener.class)
 public class Payment {
 
