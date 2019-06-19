@@ -30,16 +30,16 @@ public class Payment {
     @Column(name = "payment_id")
     private Long paymentId;
 
-    @Column(name = "balance")
+    @Column(name = "balance", nullable = false)
     private Double balance;//交易金额
 
-    @Column(name= "receiver")
+    @Column(name= "receiver", nullable = false)
     private Long receiverId;
 
-    @Column(name="payer")
+    @Column(name="payer", nullable = false)
     private Long payerId;
 
     @CreatedDate
-    @Column(name="create_time")
+    @Column(name="create_time", nullable = false)
     private LocalDateTime createTime;
 }

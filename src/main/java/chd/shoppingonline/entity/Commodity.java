@@ -22,8 +22,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "commodity", schema = "commodity",
         indexes = {
-        @Index(name = "commodityName", columnList = "commodity_name")
+                @Index(name = "commodityName", columnList = "commodity_name")
         })
+//@Check(constraints="stock >= 0 and price >= 0")
 @Data
 @DynamicUpdate
 @AllArgsConstructor
@@ -53,16 +54,17 @@ public class Commodity {
     private LocalDateTime time;//上架时间
 
     //@Size(max=20, min=4)
-    @Column(name = "commodity_name", columnDefinition="varchar(10)")
+    @Column(name = "commodity_name", columnDefinition="varchar(10)", nullable = false)
     private String commodityName;//产品名
 
     //@NotEmpty
-    @Column(name = "price")
+    @Column(name = "price", columnDefinition = "double not null check(price > 0)")
     @Min(0)
     private Double price;//单价
 
     //@NotEmpty
-    @Column(name = "stock")
+
+    @Column(name = "stock", columnDefinition = "int not null check(stock >=0)")
     @Min(0)
     private Integer stock;//库存
 
@@ -72,7 +74,7 @@ public class Commodity {
     @Column(name = "pictures", columnDefinition="varchar(255)")
     private String pictures;//产品图片，将图片上传至网络图床，保存url，节省服务端存储空间
 
-    @Column(name="commodity_state", columnDefinition = "smallint")
+    @Column(name="commodity_state", columnDefinition = "smallint", nullable = false)
     private Short commodityState;
 
     @Column(name="commodity_type", columnDefinition = "varchar(10)")

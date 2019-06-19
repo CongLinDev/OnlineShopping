@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
@@ -24,7 +25,7 @@ public class AccountController {
     private UserService userService;
 
     @RequestMapping("/registry/buyer")
-    ReturnEntity<User> registryBuyer(@RequestBody  User user) {
+    ReturnEntity<User> registryBuyer(@RequestBody @Valid User user) {
         User newUser = User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
@@ -41,7 +42,7 @@ public class AccountController {
     }
 
     @RequestMapping("/registry/seller")
-    ReturnEntity<User> registrySeller(@RequestBody User user) {
+    ReturnEntity<User> registrySeller(@RequestBody @Valid User user) {
         User newUser = User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())

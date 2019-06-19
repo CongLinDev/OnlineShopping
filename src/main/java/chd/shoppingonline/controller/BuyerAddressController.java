@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,20 +25,20 @@ public class BuyerAddressController {
 
     @RequestMapping("/buyer/address/add")
     public ReturnEntity<ConsigneeInformation> addConsigneeInformation(
-            @RequestBody ConsigneeInformation consigneeInformation){
+            @RequestBody @Valid ConsigneeInformation consigneeInformation){
         consigneeInformation = consigneeInformationService.addConsigneeInformation(consigneeInformation);
         return ReturnEntity.<ConsigneeInformation>builder().code(true).content(consigneeInformation).build();
     }
 
     @RequestMapping("/buyer/address/delete")
-    public ReturnEntity<String> deleteConsigneeInformation(@RequestBody ConsigneeInformation consigneeInformation){
+    public ReturnEntity<String> deleteConsigneeInformation(@RequestBody @Valid ConsigneeInformation consigneeInformation){
         consigneeInformationService.deleteConsigneeInformation(consigneeInformation.getConsigneeInformationId());
         return ReturnEntity.<String>builder().code(true).build();
     }
 
     @RequestMapping("/buyer/address/update")
     public ReturnEntity<ConsigneeInformation> updateConsigneeInformation(
-            @RequestBody ConsigneeInformation consigneeInformation){
+            @RequestBody @Valid ConsigneeInformation consigneeInformation){
         consigneeInformation = consigneeInformationService.updateConsigneeInformation(consigneeInformation);
         return ReturnEntity.<ConsigneeInformation>builder().code(true).content(consigneeInformation).build();
     }

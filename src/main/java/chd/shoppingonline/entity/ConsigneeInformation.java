@@ -39,13 +39,13 @@ public class ConsigneeInformation {
     private Long consigneeId;
 
     @Size(max=10)
-    @Column(name = "consignee_name", columnDefinition = "varchar(10)")
+    @Column(name = "consignee_name", columnDefinition = "varchar(10)", nullable = false)
     private String consigneeName;//收货人
 
-    @Column(name = "consignee_address", columnDefinition = "varchar(50)")
+    @Column(name = "consignee_address", columnDefinition = "varchar(50)", nullable = false)
     private String consigneeAddress;//收货地址
 
-    @Column(name = "consignee_phone_number", columnDefinition = "char(13)")
+    @Column(name = "consignee_phone_number", columnDefinition = "char(13)", nullable = false)
     private String consigneePhoneNumber;//手机号
 
     @Column(name = "valid")

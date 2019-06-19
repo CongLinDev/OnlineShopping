@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -222,7 +223,7 @@ public class SellerOrderController {
 
 
     @RequestMapping("/seller/order/deliver")
-    public void setOrderItemDelivered(@RequestBody RecordDetail recordDetail){
+    public void setOrderItemDelivered(@RequestBody @Valid RecordDetail recordDetail){
         recordDetailService.updateRecordDetailExpressId(recordDetail.getRecordDetailId(),recordDetail.getExpressId());
         recordDetailService.updateRecordDetailState(recordDetail.getRecordDetailId(), RecordDetailState.PREPARE_SHIPMENT.getShortValue(),RecordDetailState.SHIPMENT.getShortValue());
     }

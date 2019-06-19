@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 
@@ -67,7 +67,7 @@ public class BuyerOrderController {
 
     //下单和支付
     @RequestMapping("/buyer/order/add")
-    public ReturnEntity<Record> makeOrder(@RequestBody Order order){
+    public ReturnEntity<Record> makeOrder(@RequestBody @Valid Order order){
         Record record = recordService.addRecord(
                order.getConsigneeInformationId(),
                 order.getRecordDetails());
@@ -224,20 +224,20 @@ public class BuyerOrderController {
 
     //发布评论
     @RequestMapping("/buyer/order/comment")
-    public void makeComment(@RequestBody RecordDetail recordDetail){
+    public void makeComment(@RequestBody @Valid RecordDetail recordDetail){
         buyerService.comment(recordDetail.getRecordDetailId(), recordDetail.getComment());
     }
 
 
     //请求退货
     @RequestMapping("/buyer/order/return")
-    public void returnGoods(@RequestBody RecordDetail recordDetail){
+    public void returnGoods(@RequestBody @Valid RecordDetail recordDetail){
         buyerService.requestReturn(recordDetail.getRecordDetailId());
     }
 
     //确认收货
     @RequestMapping("/buyer/order/receive")
-    public void receiveGoods(@RequestBody RecordDetail recordDetail){
+    public void receiveGoods(@RequestBody @Valid RecordDetail recordDetail){
         buyerService.deliver(recordDetail.getRecordDetailId());
     }
 }

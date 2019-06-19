@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class BuyerCartController {
 
 
     @RequestMapping({"/cart/add","/cart/update"})
-    public void addToCart(@RequestBody ShoppingTrolley shoppingTrolley) {
+    public void addToCart(@RequestBody @Valid ShoppingTrolley shoppingTrolley) {
         //System.out.println(shoppingTrolley);
         shoppingTrolleyService.add(userService.findUser().getUserId(),shoppingTrolley);
     }

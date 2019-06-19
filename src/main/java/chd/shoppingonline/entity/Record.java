@@ -35,14 +35,14 @@ public class Record {
     private Long recordId;
 
     @CreatedDate
-    @Column(name = "create_time")
+    @Column(name = "create_time", nullable = false)
     private LocalDateTime createTime;
 
     @CreatedBy
-    @Column(name = "buyer_id")
+    @Column(name = "buyer_id", nullable = false)
     private Long buyerId;
 
-    @Column(name= "consignee_information_id")
+    @Column(name= "consignee_information_id", nullable = false)
     private Long consigneeInformationId;
 
 //

@@ -33,21 +33,22 @@ public class User implements Serializable {
     private Long userId;
 
     //@Size(min = 4, max = 20, message = "用户名不得小于4个字符且超过20个字符")
-    @Column(name = "username", unique = true, columnDefinition="varchar(10)")
+    @NotBlank
+    @Column(name = "username", unique = true, columnDefinition="varchar(10)", nullable = false)
     private String username;
 
-    @Column(name = "password",columnDefinition="char(60)")
+    @Column(name = "password",columnDefinition="char(60)", nullable = false)
     @NotBlank
     private String password;
 
-    @Column(name = "roles", columnDefinition = "smallint unsigned")
+    @Column(name = "roles", columnDefinition = "smallint unsigned", nullable = false)
     private Short roles;
 
     @Min(0)
-    @Column(name="balance")
+    @Column(name="balance", nullable = false, columnDefinition = "double")
     private Double balance;
 
-    @Column(name = "enabled")
+    @Column(name = "enabled", nullable = false)
     @NotNull
     private boolean enabled;//账户是否可用, true 为可用
 

@@ -40,17 +40,17 @@ public class RecordDetail {
     @Column(name = "own_record_id", nullable = false)
     private Long recordId;
 
-    @Column(name = "commodity_id")
+    @Column(name = "commodity_id", nullable = false)
     private Long commodityId;
 
     @Min(1)
-    @Column(name = "tradingVolume")
+    @Column(name = "tradingVolume", nullable = false)
     private Integer tradingVolume;//交易量
 
     @Column(name = "express_id", columnDefinition = "varchar(13)")
     private String expressId;//快递单号
 
-    @Column(name = "recordDetailState", columnDefinition = "smallint")
+    @Column(name = "recordDetailState", columnDefinition = "smallint", nullable = false)
     private Short recordDetailState;//状态
 
     @Column(name = "comment", columnDefinition = "varchar(100)")
@@ -60,6 +60,6 @@ public class RecordDetail {
     private LocalDateTime commentDate;//评论日期
 
     @CreatedDate
-    @Column(name = "create_time")
+    @Column(name = "create_time", nullable = false)
     private LocalDateTime createTime;//订单细节创建日期
 }
