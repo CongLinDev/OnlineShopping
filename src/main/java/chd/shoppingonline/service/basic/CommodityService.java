@@ -93,7 +93,7 @@ public interface CommodityService {
      * @param max 每页最大值
      * @return
      */
-    List<Commodity> findCommodity(String key, String className, Boolean asc, String orderColumn, Integer page, Integer max);
+    Page<Commodity> findCommodity(String key, String className, Boolean asc, String orderColumn, Integer page, Integer max);
 
     /**
      * 根据关键字查找商品 ,范围[(page-1)*max, page*max)
@@ -104,7 +104,7 @@ public interface CommodityService {
      * @param max 每页最大值
      * @return
      */
-    List<Commodity> findCommodity(String key, Boolean asc, String orderColumn, Integer page, Integer max);
+    Page<Commodity> findCommodity(String key, Boolean asc, String orderColumn, Integer page, Integer max);
 
     /**
      * 查看商品类，返回对应类的商品集合
@@ -115,7 +115,7 @@ public interface CommodityService {
      * @param max 每页最大值
      * @return
      */
-    List<Commodity> findAllCommodities(String className, Boolean asc,  String orderColumn, Integer page, Integer max);
+    Page<Commodity> findAllCommodities(String className, Boolean asc,  String orderColumn, Integer page, Integer max);
 
     /**
      * 查找用户的某个状态的订单细节

@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Check;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -24,7 +25,7 @@ import java.time.LocalDateTime;
         indexes = {
                 @Index(name = "commodityName", columnList = "commodity_name")
         })
-//@Check(constraints="stock >= 0 and price >= 0")
+@Check(constraints="stock >= 0 and price >= 0")
 @Data
 @DynamicUpdate
 @AllArgsConstructor
@@ -58,13 +59,13 @@ public class Commodity {
     private String commodityName;//产品名
 
     //@NotEmpty
-    @Column(name = "price", columnDefinition = "double not null check(price > 0)")
+    @Column(name = "price",nullable = false, columnDefinition = "double")
     @Min(0)
     private Double price;//单价
 
     //@NotEmpty
 
-    @Column(name = "stock", columnDefinition = "int not null check(stock >=0)")
+    @Column(name = "stock",nullable = false, columnDefinition = "int")
     @Min(0)
     private Integer stock;//库存
 

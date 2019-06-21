@@ -93,26 +93,30 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public List<Commodity> findCommodity(String key, String className, Boolean asc, String orderColumn, Integer page, Integer max) {
+    public Page<Commodity> findCommodity(String key, String className, Boolean asc, String orderColumn, Integer page, Integer max) {
         var order = Sort.Direction.ASC;
         if(!asc) order = Sort.Direction.DESC;
 
-        return countRecordDetailsVolume(commodityRepository.findAllByCommodityNameAndCommodityType(key, className, PageRequest.of(page,max, new Sort(order, orderColumn))).getContent());
+        return countRecordDetailsVolume(commodityRepository.findAllByCommodityNameAndCommodityType(key, className, PageRequest.of(page,max, new Sort(order, orderColumn))));
     }
 
     @Override
-    public List<Commodity> findCommodity(String key, Boolean asc, String orderColumn, Integer page, Integer max)  throws EmptyResultDataAccessException, IllegalArgumentException{
+    public Page<Commodity> findCommodity(String key, Boolean asc, String orderColumn, Integer page, Integer max)  throws EmptyResultDataAccessException, IllegalArgumentException{
         var order = Sort.Direction.ASC;
         if(!asc) order = Sort.Direction.DESC;
 
-        return countRecordDetailsVolume(commodityRepository.findAllByCommodityName(key, PageRequest.of(page, max, new Sort(order, "commodityId"))).getContent());
+        return countRecordDetailsVolume(commodityRepository.findAllByCommodityName(key,
+                PageRequest.of(page, max,
+                        new Sort(order, "commodityId")
+                )
+        ));
     }
 
     @Override
-    public List<Commodity> findAllCommodities(String className, Boolean asc, String orderColumn, Integer page, Integer max)  throws EmptyResultDataAccessException, IllegalArgumentException{
+    public Page<Commodity> findAllCommodities(String className, Boolean asc, String orderColumn, Integer page, Integer max)  throws EmptyResultDataAccessException, IllegalArgumentException{
         var order = Sort.Direction.ASC;
         if(!asc) order = Sort.Direction.DESC;
-        return countRecordDetailsVolume(commodityRepository.findAllByCommodityType(className, PageRequest.of(page, max, new Sort(order, orderColumn))).getContent());
+        return countRecordDetailsVolume(commodityRepository.findAllByCommodityType(className, PageRequest.of(page, max, new Sort(order, orderColumn))));
     }
 
     @Override
@@ -131,7 +135,7 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
 
-    private List<Commodity> countRecordDetailsVolume(List<Commodity> commodities){
+    private Page<Commodity> countRecordDetailsVolume(Page<Commodity> commodities){
         if(commodities == null) return  commodities;
 //        List<Integer> v = commodities.parallelStream().map(Commodity::getCommodityId)
 ////                .map(recordDetailService::findRecordDetailByCommodityId)

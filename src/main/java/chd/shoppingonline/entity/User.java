@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -24,6 +25,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
+@Check(constraints="balance>=0")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 3184902925414737238L;

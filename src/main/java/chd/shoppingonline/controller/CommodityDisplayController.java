@@ -15,6 +15,7 @@ import chd.shoppingonline.service.basic.RecordDetailService;
 import chd.shoppingonline.service.basic.RecordService;
 import chd.shoppingonline.service.basic.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,38 +62,38 @@ public class CommodityDisplayController {
                 query.getMax());
         return ReturnEntity.<List<Commodity>>builder().code(true).content(comodities).build();
     }*/
-    public ReturnEntity<List<Commodity>> search(@RequestBody Map<String, Object> map){
+    public ReturnEntity<Page<Commodity>> search(@RequestBody Map<String, Object> map){
         Pair<String, Boolean> pair = convertOrderType((String)map.get("orderType"));
-        List<Commodity> commodities = commodityService.findCommodity((String)map.get("search"),
+        Page<Commodity> commodities = commodityService.findCommodity((String)map.get("search"),
                 pair.getSecond(),
                 pair.getFirst(),
                 (Integer)map.get("page"),
                 (Integer)map.get("max"));
 
-        return ReturnEntity.<List<Commodity>>builder().code(true).content(commodities).build();
+        return ReturnEntity.<Page<Commodity>>builder().code(true).content(commodities).build();
     }
 
     @RequestMapping("/class/search")
-    public ReturnEntity<List<Commodity>> searchForClass(@RequestBody Map<String, Object> map){
+    public ReturnEntity<Page<Commodity>> searchForClass(@RequestBody Map<String, Object> map){
         Pair<String, Boolean> pair = convertOrderType((String)map.get("orderType"));
-        List<Commodity> comodities = commodityService.findCommodity((String)map.get("search"),
+        Page<Commodity> comodities = commodityService.findCommodity((String)map.get("search"),
                 (String)map.get("className"),
                 pair.getSecond(),
                 pair.getFirst(),
                 (Integer)map.get("page"),
                 (Integer)map.get("max"));
-        return ReturnEntity.<List<Commodity>>builder().code(true).content(comodities).build();
+        return ReturnEntity.<Page<Commodity>>builder().code(true).content(comodities).build();
     }
 
     @RequestMapping("/class/all")
-    public ReturnEntity<List<Commodity>> searchAll(@RequestBody Map<String, Object> map){
+    public ReturnEntity<Page<Commodity>> searchAll(@RequestBody Map<String, Object> map){
         Pair<String, Boolean> pair = convertOrderType((String)map.get("orderType"));
-        List<Commodity> comodities = commodityService.findAllCommodities((String)map.get("className"),
+        Page<Commodity> comodities = commodityService.findAllCommodities((String)map.get("className"),
                 pair.getSecond(),
                 pair.getFirst(),
                 (Integer)map.get("page"),
                 (Integer)map.get("max"));
-        return ReturnEntity.<List<Commodity>>builder().code(true).content(comodities).build();
+        return ReturnEntity.<Page<Commodity>>builder().code(true).content(comodities).build();
     }
 
     @RequestMapping("/id")
